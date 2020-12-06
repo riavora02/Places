@@ -28,7 +28,7 @@ class TabBarViewController: UITabBarController {
       
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16)], for: .normal)
         self.tabBar.isOpaque = true
-        self.setViewControllers([blockViewController, mapViewController, favoritesViewController, userViewController], animated: true)
+        self.setViewControllers([mapViewController, blockViewController, favoritesViewController, userViewController], animated: true)
         
     }
     

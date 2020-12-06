@@ -8,9 +8,15 @@
 import UIKit
 import SnapKit
 import MapKit
+import CoreLocation
+
+// Helpful video for map things: https://www.youtube.com/watch?v=WPpaAy73nJc
 
 class MapViewController: SearchFilterDelegateController {
     
+    var map: MKMapView!
+    var locationmanager: CLLocationManager!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +51,13 @@ class MapViewController: SearchFilterDelegateController {
         search.searchBarStyle = .minimal
         search.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(search)
+        
+        map = MKMapView()
+        locationmanager = CLLocationManager()
+        checkServices()
+        
+        
+        view.addSubview(map)
     
     }
 
@@ -58,12 +71,18 @@ class MapViewController: SearchFilterDelegateController {
         }
         
         filterCollectionView.snp.makeConstraints{ make in
-            make.top.equalTo(search.snp.bottom).offset(padding)
+            make.top.equalTo(search.snp.bottom)
             make.leading.equalToSuperview().offset(padding)
             make.trailing.equalToSuperview().offset(-padding)
             make.height.equalTo(40)
         }
         
+       map.snp.makeConstraints{make in
+            make.top.equalTo(filterCollectionView.snp.bottom)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+       }
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -96,6 +115,54 @@ class MapViewController: SearchFilterDelegateController {
         
     }
     
+    func checkServices(){
+        if CLLocationManager.locationServicesEnabled(){
+            locationmanager.delegate = self
+            locationmanager.desiredAccuracy = .greatestFiniteMagnitude
+            checkAuthorization()
+        }
+        else {
+            // TODO: Set up an alert
+        }
+    }
+    
+    
+    func findCenter(){
+        if let location = locationmanager.location?.coordinate{
+            let region = MKCoordinateRegion(center: location, latitudinalMeters: 5000, longitudinalMeters: 5000)
+            map.setRegion(region, animated: false)
+        }
+    }
+    
+    func checkAuthorization(){
+        switch locationmanager.authorizationStatus {
+        case .authorizedWhenInUse:
+            map.showsUserLocation = true
+            findCenter()
+        case .denied:
+                break
+        case .notDetermined:
+                locationmanager.requestWhenInUseAuthorization()
+        case .restricted:
+                break
+        case .authorizedAlways:
+                break
+        default:
+            break
+        }
+    
+    }
+}
+
+extension MapViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // ill be here
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        checkAuthorization()
+    }
 }
 
 
