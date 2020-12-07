@@ -13,7 +13,7 @@ class ViewController: SearchFilterDelegateController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.white
-        setUpViews()
+        setUpViews() 
         setUpConstraints()
 
     }
@@ -56,27 +56,28 @@ class ViewController: SearchFilterDelegateController {
     }
 
     func setUpConstraints(){
-
-        NSLayoutConstraint.activate([
-            search.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
-            search.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            search.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            search.heightAnchor.constraint(equalToConstant: 50)
-        ])
-
-        NSLayoutConstraint.activate([
-            filterCollectionView.topAnchor.constraint(equalTo: search.bottomAnchor, constant: padding),
-            filterCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            filterCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            filterCollectionView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-
-        NSLayoutConstraint.activate([
-            placeCollectionView.topAnchor.constraint(equalTo: filterCollectionView.bottomAnchor, constant: padding),
-            placeCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -padding),
-            placeCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            placeCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
-        ])
+        
+        search.snp.makeConstraints{ make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(padding)
+            make.leading.equalToSuperview().offset(padding)
+            make.trailing.equalToSuperview().offset(-padding)
+            make.height.equalTo(50)
+        }
+        
+        filterCollectionView.snp.makeConstraints{ make in
+            make.top.equalTo(search.snp.bottom)
+            make.leading.equalToSuperview().offset(padding)
+            make.trailing.equalToSuperview().offset(-padding)
+            make.height.equalTo(40)
+        }
+        
+        placeCollectionView.snp.makeConstraints{ make in
+            make.top.equalTo(filterCollectionView.snp.bottom).offset(padding)
+            make.leading.equalToSuperview().offset(padding)
+            make.trailing.equalToSuperview().offset(-padding)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-padding)
+        }
+       
 
     }
 }

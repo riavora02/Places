@@ -24,21 +24,26 @@ class SearchFilterDelegateController: UIViewController {
     var filteredPlaces: [(place: Place, name: String)] = []
     
     // Data
-    var place1 = Place(imageName: "vending1", rating: 5, category: "Vending Machine", locationDescription: "Rhodes Hall")
-    var place2 = Place(imageName: "vending2", rating: 4, category: "Vending Machine", locationDescription: "Uris Hall")
-    var place3 = Place(imageName: "bathroom1", rating: 5, category: "Bathroom", locationDescription: "Terrace")
-    var place4 = Place(imageName: "bathroom2", rating: 5, category: "Bathroom", locationDescription: "Duffield Hall")
-    var place5 = Place(imageName: "atm1", rating: 5, category: "ATM", locationDescription: "Collegetown")
+    var place1 = Place(imageName: "vending1", rating: 5, category: "Vending Machine", locationDescription: "Rhodes Hall", isFavorite: false)
+    var place2 = Place(imageName: "vending2", rating: 4, category: "Vending Machine", locationDescription: "Uris Hall", isFavorite: false)
+    var place3 = Place(imageName: "bathroom1", rating: 5, category: "Bathroom", locationDescription: "Terrace", isFavorite: true)
+    var place4 = Place(imageName: "bathroom2", rating: 5, category: "Bathroom", locationDescription: "Duffield Hall", isFavorite: false)
+    var place5 = Place(imageName: "atm1", rating: 5, category: "ATM", locationDescription: "Collegetown", isFavorite: false)
+    var place6 = Place(imageName: "atm1", rating: 5, category: "ATM", locationDescription: "Rhodes Hall", isFavorite: false)
+    
     var filter1 = Filter(name: "Vending Machine", type: "item", isSelected: false)
     var filter2 = Filter(name: "ATM", type: "item", isSelected: false)
     var filter3 = Filter(name: "Bathroom", type: "item", isSelected: false)
+    var filter4 = Filter(name: "< 500ft", type: "distance", isSelected: false)
+    var filter5 = Filter(name: "< 1 mi", type: "distance", isSelected: false)
+    var filter6 = Filter(name: "< 2 mi", type: "distance", isSelected: false)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        places = [place1, place2, place3, place4, place5]
-        filters = [filter1, filter2, filter3]
-        originalData = [place1, place2, place3, place4, place5]
+        places = [place1, place2, place3, place4, place5, place6, place1, place2]
+        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
+        originalData = places
         filteredPlaces = dataToFilter(places: places)
     }
     
@@ -93,6 +98,7 @@ extension SearchFilterDelegateController: UICollectionViewDataSource {
             return cell
         }
     }
+    
     
 }
 

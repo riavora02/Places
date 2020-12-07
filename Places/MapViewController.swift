@@ -56,6 +56,12 @@ class MapViewController: SearchFilterDelegateController {
         locationmanager = CLLocationManager()
         checkServices()
         
+        let annotation = MKPointAnnotation()
+        annotation.title = "test"
+        annotation.coordinate = CLLocationCoordinate2D(latitude: 42.44497980660144, longitude: -76.48413325746588)
+        map.addAnnotation(annotation)
+        
+        
         
         view.addSubview(map)
     
@@ -129,7 +135,8 @@ class MapViewController: SearchFilterDelegateController {
     
     func findCenter(){
         if let location = locationmanager.location?.coordinate{
-            let region = MKCoordinateRegion(center: location, latitudinalMeters: 5000, longitudinalMeters: 5000)
+            let location2 = CLLocationCoordinate2D(latitude: 42.44497980660144, longitude: -76.48413325746588)
+            let region = MKCoordinateRegion(center: location2, latitudinalMeters: 500, longitudinalMeters: 500)
             map.setRegion(region, animated: false)
         }
     }
@@ -163,9 +170,26 @@ extension MapViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         checkAuthorization()
     }
+    
+    
 }
 
+extension MapViewController: MKMapViewDelegate {
+//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//        <#code#>
+//    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+//        annotationView.backgroundColor = UIColor.purple
+        print("Hi i made it")
+        if let de = mapView.dequeueReusableAnnotationView(withIdentifier: "pin"){
+            de.tintColor = .blue
+            return de
+        }
+        return nil
 
+    }
 
-
+}
 

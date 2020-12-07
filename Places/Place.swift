@@ -12,5 +12,8 @@ struct Place {
     var location: String?
     var rating: Int!
     var category: String!
-    var locationDescription: String! 
+    var locationDescription: String!
+    var latitude: Int?
+    var longitude: Int?
+    var isFavorite: Bool!
 }
