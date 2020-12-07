@@ -7,19 +7,48 @@
 
 import UIKit
 
-class FavoritesViewController: SearchFilterDelegateController{
+class FavoritesViewController: UIViewController {
     
-    var favorites: [Place]! = []
+    let placeCellReuse = "placeCellReuseIdentifier"
+    let filterCellReuse = "filterCellReuseIdentifier"
+    let padding: CGFloat = 10
+    
+    var placeCollectionView: UICollectionView!
+    var filterCollectionView: UICollectionView!
+    var search: UISearchBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         for place in places {
             if place.isFavorite == true {
-                favorites.append(place)
+                print("getting added as favorite")
             }
         }
-        places = favorites
+        
+        view.backgroundColor = .white
+        setUpViews()
+        setUpConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("im about to appear")
+        for place in places {
+            print(place.locationDescription)
+            if place.isFavorite == true && favorites.contains(where: {obj in obj.tag == place.tag}) == false{
+                favorites.append(place.copy() as! Place)
+                print("I got marked as fav")
+            }
+            if place.isFavorite == false && favorites.contains(where: {obj in obj.tag == place.tag}) == true {
+                if let index = favorites.firstIndex(of: place){
+                    favorites.remove(at: index)
+                }
+                print("Im removed")
+                //favorites.remove(at: index)
+                print("I got taken out marked as fav")
+            }
+        }
+        //places = favorites
         view.backgroundColor = .white
         setUpViews()
         setUpConstraints()
@@ -87,6 +116,119 @@ class FavoritesViewController: SearchFilterDelegateController{
        
 
     }
+    
+    func dataToShow() -> [Place] {
+        favorites = []
+        for filter in filters{
+            if filter.isSelected == true {
+                for place in originalData {
+                    if(place.category == filter.name){
+                        favorites.append(place)
+                    }
+                }
+            }
+        }
+        if favorites.count == 0 {
+            favorites = originalData
+        }
+        return favorites
+    }
+    
+    func dataToFilter(places: [Place]) -> [(Place,String)] {
+        var filteredPlacesText: [(place: Place, string: String)] = []
+        for place in places {
+            filteredPlacesText.append((place: place, string: place.category))
+            filteredPlacesText.append((place: place, string: place.locationDescription))
+        }
+        return filteredPlacesText
+    }
 }
+
+
+
+extension FavoritesViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == filterCollectionView{
+            return filters.count
+        }
+        else {
+            return favorites.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == filterCollectionView{
+            let cell = filterCollectionView.dequeueReusableCell(withReuseIdentifier: filterCellReuse, for: indexPath) as! FilterCollectionViewCell
+            cell.configure(filter: filters[indexPath.row])
+            return cell
+        }
+        else {
+            let cell = placeCollectionView.dequeueReusableCell(withReuseIdentifier: placeCellReuse, for: indexPath) as! PlaceCollectionViewCell
+            cell.configure(place: favorites[indexPath.row])
+            return cell
+        }
+    }
+    
+    
+}
+
+extension FavoritesViewController: UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == filterCollectionView {
+            let size = collectionView.frame.height - padding
+            let width = (filters[indexPath.row].name + "     ").size(withAttributes: [.font: UIFont.systemFont(ofSize: 16)]).width
+            return CGSize(width: width, height: size)
+        }
+        else {
+            let size = (collectionView.frame.width - padding) / 2.0
+            return CGSize(width: size, height: size)
+        }
+    }
+}
+
+
+extension FavoritesViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == filterCollectionView {
+            let filter = filters[indexPath.row]
+            filter.isSelected.toggle()
+            favorites = dataToShow()
+            filteredPlaces = dataToFilter(places: places)
+            
+            filterCollectionView.reloadData()
+            placeCollectionView.reloadData()
+        }
+
+        if collectionView == placeCollectionView  {
+//            let place = places[indexPath.row]
+//            let placeVC = PlaceViewController(place: place)
+//            navigationController?.pushViewController(restaurantVC, animated: true)
+            print("tapped!")
+        }
+    }
+}
+
+
+// Set Up Search Bar: https://www.youtube.com/watch?v=wVeX68Iu43E
+extension FavoritesViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            favorites = dataToShow()
+            placeCollectionView.reloadData()
+            return
+        }
+        var placesfiltered:[Place] = []
+        for (place, result) in filteredPlaces {
+            if result.lowercased().contains(searchText.lowercased()) {
+                placesfiltered.append(place)
+            }
+        }
+        
+        favorites = placesfiltered
+        placeCollectionView.reloadData()
+        
+    }
+}
+
 
 

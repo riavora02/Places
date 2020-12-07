@@ -128,13 +128,13 @@ extension SearchFilterDelegateController: UICollectionViewDelegate {
             filterCollectionView.reloadData()
             placeCollectionView.reloadData()
         }
-//        TODO: Add in feature when person taps
-//
-//        if collectionView == placeCollectionView  {
+
+        if collectionView == placeCollectionView  {
 //            let place = places[indexPath.row]
 //            let placeVC = PlaceViewController(place: place)
 //            navigationController?.pushViewController(restaurantVC, animated: true)
-//        }
+            print("tapped!")
+        }
     }
 }
 

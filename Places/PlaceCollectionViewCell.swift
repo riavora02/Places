@@ -140,11 +140,21 @@ class PlaceCollectionViewCell: UICollectionViewCell {
         if currentPlace.isFavorite == true {
             
             currentPlace.isFavorite = false
-            starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)
-        }
-        else {
-            currentPlace.isFavorite = true
+            places[currentPlace.tag].isFavorite = false
+            print("hi")
             starButton.setImage(UIImage(named: "favoritestar"), for: .normal)
+        }
+        else if currentPlace.isFavorite == false{
+            currentPlace.isFavorite = true
+            print(currentPlace.tag!)
+            if currentPlace.tag < places.count {
+                places[currentPlace.tag!].isFavorite = true
+            }
+            starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)
+            
+            for place in places {
+                print("Name: \(String(describing: place.locationDescription)) Is Favorite:  + \(String(describing: place.isFavorite))")
+            }
         }
     }
 }
