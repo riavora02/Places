@@ -16,4 +16,6 @@ struct Place {
     var latitude: Int?
     var longitude: Int?
     var isFavorite: Bool!
+    var tag: Int!
+    
 }
