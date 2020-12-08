@@ -21,6 +21,15 @@ class MapViewController: SearchFilterDelegateController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        
+        places = [place1, place2, place3, place4, place5, place6]
+        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
+        for place in places {
+            originalData.append(place.copy() as! Place)
+        }
+        
+        filteredPlaces = dataToFilter(places: places)
+        
         setUpViews()
         setUpConstraints()
 
@@ -56,10 +65,17 @@ class MapViewController: SearchFilterDelegateController {
         locationmanager = CLLocationManager()
         checkServices()
         
-        let annotation = MKPointAnnotation()
-        annotation.title = "test"
-        annotation.coordinate = CLLocationCoordinate2D(latitude: 42.44497980660144, longitude: -76.48413325746588)
-        map.addAnnotation(annotation)
+//        let annotation = MKPointAnnotation()
+//        annotation.title = "test"
+//        annotation.coordinate = CLLocationCoordinate2D(latitude: 42.44497980660144, longitude: -76.48413325746588)
+//        map.addAnnotation(annotation)
+        
+        for place in places {
+            let annotation = MKPointAnnotation()
+            annotation.title = String(place.locationDescription)
+            annotation.coordinate = CLLocationCoordinate2D(latitude: place.latitude!, longitude: place.longitude!)
+            map.addAnnotation(annotation)
+        }
         
         
         
@@ -91,24 +107,76 @@ class MapViewController: SearchFilterDelegateController {
        }
     }
     
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == filterCollectionView {
             let filter = filters[indexPath.row]
             filter.isSelected.toggle()
-            places = dataToShow()
-            filteredPlaces = dataToFilter(places: places)
+            let filtered = dataToShow()
+           // filteredPlaces = dataToFilter(places: places)
+            
+            for annotation in map.annotations{
+                map.removeAnnotation(annotation)
+            }
+            
+            for place in filtered {
+                let annotation = MKPointAnnotation()
+                annotation.title = String(place.locationDescription)
+                annotation.coordinate = CLLocationCoordinate2D(latitude: place.latitude!, longitude: place.longitude!)
+                map.addAnnotation(annotation)
+            }
             
             filterCollectionView.reloadData()
            // placeCollectionView.reloadData()
         }
     }
     
+    override func dataToShow() -> [Place] {
+        var dataToShowPlaces: [Place] = []
+        for filter in filters{
+            if filter.isSelected == true {
+                for place in originalData {
+                    if(place.category == filter.name){
+                        dataToShowPlaces.append(place)
+                    }
+                }
+            }
+        }
+        if dataToShowPlaces.count == 0 {
+            print("hiii")
+            return places
+        }
+        return dataToShowPlaces
+    }
+    
+    override func dataToFilter(places: [Place]) -> [(Place,String)] {
+        var filteredPlacesText: [(place: Place, string: String)] = []
+        for place in places {
+            filteredPlacesText.append((place: place, string: place.category))
+            filteredPlacesText.append((place: place, string: place.locationDescription))
+        }
+        return filteredPlacesText
+    }
+    
     override func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            print("this is my data")
             places = dataToShow()
-            placeCollectionView.reloadData()
+            print(places)
+            
+            for annotation in map.annotations{
+                map.removeAnnotation(annotation)
+            }
+            
+            for place in places {
+                let annotation = MKPointAnnotation()
+                annotation.title = String(place.locationDescription)
+                annotation.coordinate = CLLocationCoordinate2D(latitude: place.latitude!, longitude: place.longitude!)
+                map.addAnnotation(annotation)
+            }
             return
         }
+        filteredPlaces = dataToFilter(places: places)
         var placesfiltered:[Place] = []
         for (place, result) in filteredPlaces {
             if result.lowercased().contains(searchText.lowercased()) {
@@ -116,7 +184,20 @@ class MapViewController: SearchFilterDelegateController {
             }
         }
         
-        places = placesfiltered
+        for annotation in map.annotations{
+            map.removeAnnotation(annotation)
+        }
+        
+        for place in placesfiltered {
+            let annotation = MKPointAnnotation()
+            annotation.title = String(place.locationDescription)
+            annotation.coordinate = CLLocationCoordinate2D(latitude: place.latitude!, longitude: place.longitude!)
+            map.addAnnotation(annotation)
+        }
+        
+        
+        
+      //  places = placesfiltered
         //placeCollectionView.reloadData()
         
     }
@@ -134,7 +215,7 @@ class MapViewController: SearchFilterDelegateController {
     
     
     func findCenter(){
-        if let location = locationmanager.location?.coordinate{
+        if (locationmanager.location?.coordinate) != nil{
             let location2 = CLLocationCoordinate2D(latitude: 42.44497980660144, longitude: -76.48413325746588)
             let region = MKCoordinateRegion(center: location2, latitudinalMeters: 500, longitudinalMeters: 500)
             map.setRegion(region, animated: false)
@@ -175,14 +256,12 @@ extension MapViewController: CLLocationManagerDelegate {
 }
 
 extension MapViewController: MKMapViewDelegate {
-//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//        <#code#>
-//    }
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 //        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "pin")
 //        annotationView.backgroundColor = UIColor.purple
-        print("Hi i made it")
         if let de = mapView.dequeueReusableAnnotationView(withIdentifier: "pin"){
             de.tintColor = .blue
             return de

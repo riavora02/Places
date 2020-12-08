@@ -19,12 +19,18 @@ class FavoritesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        places = [place1, place2, place3, place4, place5, place6]
+        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
         for place in places {
             if place.isFavorite == true {
-                print("getting added as favorite")
+                favorites.append(place.copy() as! Place)
             }
         }
+        
+        originalData = favorites
+        filteredPlaces = dataToFilter(places: places)
+
         
         view.backgroundColor = .white
         setUpViews()
@@ -32,22 +38,24 @@ class FavoritesViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("im about to appear")
+        
+        places = [place1, place2, place3, place4, place5, place6]
+        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
+        
         for place in places {
-            print(place.locationDescription)
+            print(place.locationDescription!)
             if place.isFavorite == true && favorites.contains(where: {obj in obj.tag == place.tag}) == false{
                 favorites.append(place.copy() as! Place)
-                print("I got marked as fav")
             }
             if place.isFavorite == false && favorites.contains(where: {obj in obj.tag == place.tag}) == true {
                 if let index = favorites.firstIndex(of: place){
                     favorites.remove(at: index)
                 }
-                print("Im removed")
-                //favorites.remove(at: index)
-                print("I got taken out marked as fav")
             }
         }
+        
+        originalData = favorites
+        filteredPlaces = dataToFilter(places: places)
         //places = favorites
         view.backgroundColor = .white
         setUpViews()
@@ -128,7 +136,7 @@ class FavoritesViewController: UIViewController {
                 }
             }
         }
-        if favorites.count == 0 {
+        if favorites.count == 0 && filters.contains(where: {filter in filter.isSelected == true}) == false {
             favorites = originalData
         }
         return favorites
@@ -137,8 +145,10 @@ class FavoritesViewController: UIViewController {
     func dataToFilter(places: [Place]) -> [(Place,String)] {
         var filteredPlacesText: [(place: Place, string: String)] = []
         for place in places {
+            if place.isFavorite == true {
             filteredPlacesText.append((place: place, string: place.category))
             filteredPlacesText.append((place: place, string: place.locationDescription))
+            }
         }
         return filteredPlacesText
     }
@@ -203,7 +213,6 @@ extension FavoritesViewController: UICollectionViewDelegate {
 //            let place = places[indexPath.row]
 //            let placeVC = PlaceViewController(place: place)
 //            navigationController?.pushViewController(restaurantVC, animated: true)
-            print("tapped!")
         }
     }
 }
@@ -220,7 +229,9 @@ extension FavoritesViewController: UISearchBarDelegate {
         var placesfiltered:[Place] = []
         for (place, result) in filteredPlaces {
             if result.lowercased().contains(searchText.lowercased()) {
-                placesfiltered.append(place)
+                if(placesfiltered.contains(where: {obj in obj.tag == place.tag}) == false){
+                    placesfiltered.append(place)
+                }
             }
         }
         

@@ -41,9 +41,9 @@ class SearchFilterDelegateController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        places = [place1, place2, place3, place4, place5, place6, place1, place2]
-//        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
-//        originalData = places
+        places = [place1, place2, place3, place4, place5, place6]
+        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
+        originalData = places
         filteredPlaces = dataToFilter(places: places)
     }
     

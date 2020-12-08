@@ -13,6 +13,7 @@ class ViewController: SearchFilterDelegateController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.white
+        
         setUpViews() 
         setUpConstraints()
 
