@@ -130,9 +130,9 @@ extension SearchFilterDelegateController: UICollectionViewDelegate {
         }
 
         if collectionView == placeCollectionView  {
-//            let place = places[indexPath.row]
-//            let placeVC = PlaceViewController(place: place)
-//            navigationController?.pushViewController(restaurantVC, animated: true)
+            let place = places[indexPath.row]
+            let placeVC = PlaceDetailViewController()
+            navigationController?.pushViewController(placeVC, animated: true)
             print("tapped!")
         }
     }

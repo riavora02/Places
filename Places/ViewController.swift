@@ -18,6 +18,10 @@ class ViewController: SearchFilterDelegateController {
         setUpConstraints()
 
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
+//    }
 
     func setUpViews(){
 

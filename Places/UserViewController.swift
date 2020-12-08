@@ -15,5 +15,8 @@ class UserViewController: UIViewController {
         view.backgroundColor = UIColor(red: 252/255.0, green: 244/255.0, blue: 163/255.0, alpha: 1)
     }
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
+//    }
 
 }

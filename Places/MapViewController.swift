@@ -34,6 +34,11 @@ class MapViewController: SearchFilterDelegateController {
         setUpConstraints()
 
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
 
     func setUpViews(){
     
@@ -62,6 +67,7 @@ class MapViewController: SearchFilterDelegateController {
         view.addSubview(search)
         
         map = MKMapView()
+       // map.delegate = self
         locationmanager = CLLocationManager()
         checkServices()
         
@@ -74,6 +80,7 @@ class MapViewController: SearchFilterDelegateController {
             let annotation = MKPointAnnotation()
             annotation.title = String(place.locationDescription)
             annotation.coordinate = CLLocationCoordinate2D(latitude: place.latitude!, longitude: place.longitude!)
+            let rightButton = UIButton(type: .detailDisclosure)
             map.addAnnotation(annotation)
         }
         
@@ -135,7 +142,7 @@ class MapViewController: SearchFilterDelegateController {
         var dataToShowPlaces: [Place] = []
         for filter in filters{
             if filter.isSelected == true {
-                for place in originalData {
+                for place in places {
                     if(place.category == filter.name){
                         dataToShowPlaces.append(place)
                     }
@@ -262,13 +269,23 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 //        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "pin")
 //        annotationView.backgroundColor = UIColor.purple
-        if let de = mapView.dequeueReusableAnnotationView(withIdentifier: "pin"){
-            de.tintColor = .blue
-            return de
+//        if let de = mapView.dequeueReusableAnnotationView(withIdentifier: "pin"){
+//            de.tintColor = .blue
+//            return de
+//        }
+//        return nil
+        
+        let identifier = "placepin"
+        var annotationView = map.dequeueReusableAnnotationView(withIdentifier: identifier)
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
+            annotationView?.rightCalloutAccessoryView=UIButton(type: .detailDisclosure)
+        } else {
+            annotationView?.annotation = annotation
         }
-        return nil
 
+        return annotationView
     }
 
 }
-
