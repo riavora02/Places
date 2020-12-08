@@ -80,7 +80,7 @@ class MapViewController: SearchFilterDelegateController {
             let annotation = MKPointAnnotation()
             annotation.title = String(place.locationDescription)
             annotation.coordinate = CLLocationCoordinate2D(latitude: place.latitude!, longitude: place.longitude!)
-            let rightButton = UIButton(type: .detailDisclosure)
+            //_ = UIButton(type: .detailDisclosure)
             map.addAnnotation(annotation)
         }
         

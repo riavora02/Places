@@ -105,10 +105,10 @@
 				5812C123257C81A2002F88CA /* FavoritesViewController.swift */,
 				5840AA15257D4C210075EB1D /* SearchFilterDelegateController.swift */,
 				589EE6E4257EBE69003B2B3B /* Data.swift */,
+				5865BCFB257FFEE800F1A0AB /* PlaceDetailViewController.swift */,
 				5813E0FE257C453D004F4FA9 /* Assets.xcassets */,
 				5813E100257C453D004F4FA9 /* LaunchScreen.storyboard */,
 				5813E103257C453D004F4FA9 /* Info.plist */,
-				5865BCFB257FFEE800F1A0AB /* PlaceDetailViewController.swift */,
 			);
 			path = Places;
 			sourceTree = "<group>";

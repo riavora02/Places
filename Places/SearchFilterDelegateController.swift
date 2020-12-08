@@ -131,9 +131,8 @@ extension SearchFilterDelegateController: UICollectionViewDelegate {
 
         if collectionView == placeCollectionView  {
             let place = places[indexPath.row]
-            let placeVC = PlaceDetailViewController()
+            let placeVC = PlaceDetailViewController(place: place)
             navigationController?.pushViewController(placeVC, animated: true)
-            print("tapped!")
         }
     }
 }
