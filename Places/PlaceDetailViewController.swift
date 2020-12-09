@@ -24,6 +24,9 @@ class PlaceDetailViewController: UIViewController {
     var categoryName: UITextView!
     var locationDescription: UITextView!
     var notes: UITextView!
+    var reviewsCollectionView: UICollectionView!
+    
+    var reviewReuseIdentifier = "rev"
     
 
     init(place: Place){
@@ -205,3 +208,5 @@ class PlaceDetailViewController: UIViewController {
     }
 
 }
+
+
