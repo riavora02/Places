@@ -27,6 +27,7 @@ class PlaceDetailViewController: UIViewController {
     var locationDescription: UITextView!
     var notes: UITextView!
     var reviewsCollectionView: UICollectionView!
+    var reviewsTitle: UITextView!
     
     var reviewReuseIdentifier = "rev"
     
@@ -106,7 +107,7 @@ class PlaceDetailViewController: UIViewController {
         star1.contentMode = .scaleAspectFill
         star1.clipsToBounds = true
         view.addSubview(star1)
-        
+
         star2 = UIImageView()
         star2.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
         if currentPlace.rating >= 2 {star2.tintColor = .systemYellow}
@@ -138,6 +139,14 @@ class PlaceDetailViewController: UIViewController {
         star5.contentMode = .scaleAspectFill
         star5.clipsToBounds = true
         view.addSubview(star5)
+        
+        reviewsTitle = UITextView()
+        reviewsTitle.text = "Reviews:"
+        reviewsTitle.font = .systemFont(ofSize: 18)
+        reviewsTitle.textColor = .lightGray
+        reviewsTitle.textAlignment = .left
+        reviewsTitle.isEditable = false
+        view.addSubview(reviewsTitle)
         
         let reviewLayout = UICollectionViewFlowLayout()
         reviewLayout.minimumLineSpacing = collectionPadding
@@ -216,6 +225,14 @@ class PlaceDetailViewController: UIViewController {
             make.height.equalTo(60)
             make.top.equalTo(locationDescription.snp.bottom).offset(padding/4)
         }
+        
+        
+//        reviewsTitle.snp.makeConstraints{ make in
+//            make.leading.equalToSuperview().offset(padding)
+//            make.trailing.equalToSuperview().offset(-padding)
+//            make.height.equalTo(35)
+//            make.top.equalTo(notes.snp.bottom)
+//        }
         
         reviewsCollectionView.snp.makeConstraints{ make in
             make.leading.equalToSuperview()
