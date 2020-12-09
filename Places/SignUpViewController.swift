@@ -1,25 +1,37 @@
 //
-//  UserViewController.swift
+//  SignUpViewController.swift
 //  Places
 //
-//  Created by Ria Vora on 12/5/20.
+//  Created by Neil Madhavani on 12/8/20.
 //
 
 import UIKit
 
-protocol SignUpViewDelegate: class {
-}
-
-class UserViewController: UIViewController {
+class SignUpViewController: UIViewController {
+    
+    weak var delegate: SignUpViewDelegate?
+    var titleString: String?
     
     var userName: UITextField!
     var password: UITextField!
+    var password2: UITextField!
     var login: UIButton!
     var signUp: UIButton!
     var logo: UIImageView!
     var passwordClicked = false
+
     
+    init(delegate: SignUpViewDelegate?, titleString: String?) {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.delegate = delegate
+        self.titleString = titleString
+    }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +40,7 @@ class UserViewController: UIViewController {
         
         userName = UITextField()
         userName.translatesAutoresizingMaskIntoConstraints = false
-        userName.text = "Username"
+        userName.text = "Cornell Email"
         userName.borderStyle = .roundedRect
         userName.backgroundColor = .white
         userName.textAlignment = .left
@@ -45,28 +57,31 @@ class UserViewController: UIViewController {
         password.addTarget(self, action: #selector(textFieldDidChange), for: UIControl.Event.editingDidBegin)
         view.addSubview(password)
         
+        password2 = UITextField()
+        password2.translatesAutoresizingMaskIntoConstraints = false
+        password2.text = "Confirm Password"
+        password2.borderStyle = .roundedRect
+        password2.backgroundColor = .white
+        password2.textAlignment = .left
+        password2.clearsOnBeginEditing = true
+        password2.addTarget(self, action: #selector(textField2DidChange), for: UIControl.Event.editingDidBegin)
+        view.addSubview(password2)
+        
         login = UIButton()
         login.translatesAutoresizingMaskIntoConstraints = false
-        login.setTitle("Login", for: .normal)
+        login.setTitle("Sign Up", for: .normal)
         login.backgroundColor = UIColor(red: 179/255, green: 27/255, blue: 27/255, alpha: 1.0)
         login.setTitleColor(.white, for: .normal)
         login.addTarget(self, action: #selector(pushLogin), for: .touchUpInside)
         login.layer.cornerRadius = 10
         view.addSubview(login)
         
-        signUp = UIButton()
-        signUp.translatesAutoresizingMaskIntoConstraints = false
-        signUp.setTitle("Don't have an account? Click here to sign up!", for: .normal)
-        signUp.backgroundColor = .white
-        signUp.setTitleColor(.blue, for: .normal)
-        signUp.addTarget(self, action: #selector(pushSignUp), for: .touchUpInside)
-        view.addSubview(signUp)
-        
         logo = UIImageView(image: UIImage(named: "cornellLogo"))
         logo.translatesAutoresizingMaskIntoConstraints = false
         logo.contentMode = .scaleAspectFit
         view.addSubview(logo)
-        
+
+        // Do any additional setup after loading the view.
         setupConstraints()
     }
     
@@ -79,6 +94,13 @@ class UserViewController: UIViewController {
             password.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -48)
             ])
         NSLayoutConstraint.activate([
+            password2.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            password2.topAnchor.constraint(equalTo: password.bottomAnchor, constant: 24),
+            password2.heightAnchor.constraint(equalToConstant: 36),
+            password2.leadingAnchor.constraint(equalTo: password.leadingAnchor),
+            password2.trailingAnchor.constraint(equalTo: password.trailingAnchor)
+        ])
+        NSLayoutConstraint.activate([
             userName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             userName.bottomAnchor.constraint(equalTo: password.topAnchor, constant: -24),
             userName.heightAnchor.constraint(equalToConstant: 36),
@@ -86,7 +108,7 @@ class UserViewController: UIViewController {
             userName.trailingAnchor.constraint(equalTo: password.trailingAnchor)
         ])
         NSLayoutConstraint.activate([
-            login.topAnchor.constraint(equalTo: password.bottomAnchor, constant: 24),
+            login.topAnchor.constraint(equalTo: password2.bottomAnchor, constant: 24),
             login.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             login.heightAnchor.constraint(equalToConstant: 48),
             login.leadingAnchor.constraint(equalTo: password.leadingAnchor, constant: 48),
@@ -97,37 +119,27 @@ class UserViewController: UIViewController {
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logo.bottomAnchor.constraint(equalTo: userName.topAnchor, constant: -24)
         ])
-        NSLayoutConstraint.activate([
-            signUp.heightAnchor.constraint(equalTo: login.heightAnchor, multiplier: 0.5),
-            signUp.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signUp.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -96),
-        ])
-
     }
     
     @objc func textFieldDidChange() {
         password.isSecureTextEntry = true
     }
-
+    
+    @objc func textField2DidChange() {
+        password2.isSecureTextEntry = true
+    }
     
     @objc func pushLogin() {
         print("Login pressed")
     }
     
     @objc func pushSignUp() {
-        let vc = SignUpViewController(delegate: self, titleString: "Sign Up")
-        present(vc, animated: true, completion: nil)
+        print("Sign Up pressed")
     }
     
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
-//    }
+    @objc func dismissViewController() {
+        // To dismiss something modally, we use the dismiss(animated:completion) command.
 
-}
-
-extension UserViewController: SignUpViewDelegate {
-    func saveNewName(newName: String?) {
+        dismiss(animated: true, completion: nil)
     }
-
 }
