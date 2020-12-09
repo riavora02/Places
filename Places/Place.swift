@@ -22,6 +22,7 @@ class Place: Equatable, NSCopying {
     var longitude: Double?
     var isFavorite: Bool!
     var tag: Int!
+    var notes: String! 
     
     init(imageName: String, rating: Int, category: String, locationDescription: String, isFavorite: Bool, tag: Int){
         self.imageName = imageName
@@ -32,7 +33,7 @@ class Place: Equatable, NSCopying {
         self.tag = tag
     }
     
-    init(imageName: String, rating: Int, category: String, locationDescription: String, isFavorite: Bool, tag: Int, latitude: Double, longitude: Double){
+    init(imageName: String, rating: Int, category: String, locationDescription: String, isFavorite: Bool, tag: Int, latitude: Double, longitude: Double, notes: String){
         self.imageName = imageName
         self.rating = rating
         self.category = category
@@ -41,6 +42,7 @@ class Place: Equatable, NSCopying {
         self.tag = tag
         self.longitude = longitude
         self.latitude = latitude
+        self.notes = notes
     }
     
     func copy(with zone: NSZone? = nil) -> Any {

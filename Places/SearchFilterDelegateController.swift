@@ -47,6 +47,11 @@ class SearchFilterDelegateController: UIViewController {
         filteredPlaces = dataToFilter(places: places)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        places = [place1, place2, place3, place4, place5, place6]
+        originalData = places
+    }
+    
     func dataToShow() -> [Place] { 
         places = []
         for filter in filters{
