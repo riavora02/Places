@@ -11,7 +11,9 @@ import SnapKit
 class PlaceDetailViewController: UIViewController {
     
     var padding = 20
+    var collectionPadding: CGFloat = 10
     var currentPlace: Place!
+    var currentReviews: [Review]!
     
     var image: UIImageView!
     var star1: UIImageView!
@@ -32,6 +34,7 @@ class PlaceDetailViewController: UIViewController {
     init(place: Place){
         super.init(nibName: nil, bundle: nil)
         currentPlace = place
+        currentReviews = place.reviews
     }
     
     required init?(coder: NSCoder) {
@@ -136,8 +139,18 @@ class PlaceDetailViewController: UIViewController {
         star5.clipsToBounds = true
         view.addSubview(star5)
         
+        let reviewLayout = UICollectionViewFlowLayout()
+        reviewLayout.minimumLineSpacing = collectionPadding
+        reviewLayout.minimumInteritemSpacing = collectionPadding
+        reviewLayout.scrollDirection = .vertical
         
-        
+        reviewsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: reviewLayout)
+        reviewsCollectionView.backgroundColor = .white
+        reviewsCollectionView.dataSource = self
+        reviewsCollectionView.delegate = self
+        reviewsCollectionView.register(ReviewCollectionViewCell.self, forCellWithReuseIdentifier: reviewReuseIdentifier)
+        view.addSubview(reviewsCollectionView)
+    
     }
     
     func setUpConstraints(){
@@ -204,9 +217,41 @@ class PlaceDetailViewController: UIViewController {
             make.top.equalTo(locationDescription.snp.bottom).offset(padding/4)
         }
         
+        reviewsCollectionView.snp.makeConstraints{ make in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.top.equalTo(notes.snp.bottom).offset(padding/4)
+            make.bottom.equalToSuperview()
+         }
+        
 
     }
 
 }
+
+extension PlaceDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return currentReviews.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = reviewsCollectionView.dequeueReusableCell(withReuseIdentifier: reviewReuseIdentifier, for: indexPath) as! ReviewCollectionViewCell
+        cell.configure(review: reviews[indexPath.row])
+        return cell
+    }
+}
+
+
+extension PlaceDetailViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let height = collectionView.frame.width / 4.0
+        let width = collectionView.frame.width - (collectionPadding * 3.0)
+        return CGSize(width: width, height: height)
+        
+    }
+}
+
+//extension PlaceDetailViewController: UICollectionViewDelegate
+
 
 

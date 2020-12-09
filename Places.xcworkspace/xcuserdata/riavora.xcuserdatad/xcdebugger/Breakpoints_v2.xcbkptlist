@@ -30,8 +30,8 @@
             filePath = "Places/PlaceCollectionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "toggleButton()"
             landmarkType = "7">
          </BreakpointContent>

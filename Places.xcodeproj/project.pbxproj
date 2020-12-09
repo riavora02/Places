@@ -23,6 +23,7 @@
 		5840AA16257D4C210075EB1D /* SearchFilterDelegateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5840AA15257D4C210075EB1D /* SearchFilterDelegateController.swift */; };
 		5865BCFC257FFEE800F1A0AB /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865BCFB257FFEE800F1A0AB /* PlaceDetailViewController.swift */; };
 		5865BD0525807CEF00F1A0AB /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865BD0425807CEF00F1A0AB /* Review.swift */; };
+		5865BD082581108700F1A0AB /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865BD072581108700F1A0AB /* ReviewCollectionViewCell.swift */; };
 		589EE6E5257EBE69003B2B3B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589EE6E4257EBE69003B2B3B /* Data.swift */; };
 		81777D94215C8C4E359760A1 /* Pods_Places.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F88186A1449E4E990EF8E1AA /* Pods_Places.framework */; };
 		B47A5A492580778A00BE0503 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47A5A482580778A00BE0503 /* SignUpViewController.swift */; };
@@ -48,6 +49,7 @@
 		5840AA15257D4C210075EB1D /* SearchFilterDelegateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterDelegateController.swift; sourceTree = "<group>"; };
 		5865BCFB257FFEE800F1A0AB /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
 		5865BD0425807CEF00F1A0AB /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		5865BD072581108700F1A0AB /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		589EE6E4257EBE69003B2B3B /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		904F5B8BEBFA731AE46F24E1 /* Pods-Places.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Places.debug.xcconfig"; path = "Target Support Files/Pods-Places/Pods-Places.debug.xcconfig"; sourceTree = "<group>"; };
 		B47A5A482580778A00BE0503 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -96,25 +98,26 @@
 		5813E0F4257C453B004F4FA9 /* Places */ = {
 			isa = PBXGroup;
 			children = (
-				5813E0F7257C453B004F4FA9 /* SceneDelegate.swift */,
-				5812C12E257C88E1002F88CA /* Filter.swift */,
-				5813E0F9257C453B004F4FA9 /* ViewController.swift */,
-				5840AA0F257D39C80075EB1D /* PlaceCollectionViewCell.swift */,
-				5812C134257C88FB002F88CA /* FilterCollectionViewCell.swift */,
-				5840AA0B257D339E0075EB1D /* Place.swift */,
 				5813E0F5257C453B004F4FA9 /* AppDelegate.swift */,
+				5813E0FE257C453D004F4FA9 /* Assets.xcassets */,
+				589EE6E4257EBE69003B2B3B /* Data.swift */,
+				5812C123257C81A2002F88CA /* FavoritesViewController.swift */,
+				5812C12E257C88E1002F88CA /* Filter.swift */,
+				5812C134257C88FB002F88CA /* FilterCollectionViewCell.swift */,
+				5813E103257C453D004F4FA9 /* Info.plist */,
+				5813E100257C453D004F4FA9 /* LaunchScreen.storyboard */,
 				5812C11B257C6B9C002F88CA /* MapViewController.swift */,
+				5840AA0B257D339E0075EB1D /* Place.swift */,
+				5840AA0F257D39C80075EB1D /* PlaceCollectionViewCell.swift */,
+				5865BCFB257FFEE800F1A0AB /* PlaceDetailViewController.swift */,
+				5865BD0425807CEF00F1A0AB /* Review.swift */,
+				5865BD072581108700F1A0AB /* ReviewCollectionViewCell.swift */,
+				5813E0F7257C453B004F4FA9 /* SceneDelegate.swift */,
+				5840AA15257D4C210075EB1D /* SearchFilterDelegateController.swift */,
+				B47A5A482580778A00BE0503 /* SignUpViewController.swift */,
 				5812C117257C6AF1002F88CA /* TabBarViewController.swift */,
 				5812C11F257C7E34002F88CA /* UserViewController.swift */,
-				5812C123257C81A2002F88CA /* FavoritesViewController.swift */,
-				5840AA15257D4C210075EB1D /* SearchFilterDelegateController.swift */,
-				589EE6E4257EBE69003B2B3B /* Data.swift */,
-				5865BCFB257FFEE800F1A0AB /* PlaceDetailViewController.swift */,
-				5813E0FE257C453D004F4FA9 /* Assets.xcassets */,
-				5813E100257C453D004F4FA9 /* LaunchScreen.storyboard */,
-				5813E103257C453D004F4FA9 /* Info.plist */,
-				B47A5A482580778A00BE0503 /* SignUpViewController.swift */,
-				5865BD0425807CEF00F1A0AB /* Review.swift */,
+				5813E0F9257C453B004F4FA9 /* ViewController.swift */,
 			);
 			path = Places;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			files = (
 				5840AA10257D39C80075EB1D /* PlaceCollectionViewCell.swift in Sources */,
 				5840AA0C257D339E0075EB1D /* Place.swift in Sources */,
+				5865BD082581108700F1A0AB /* ReviewCollectionViewCell.swift in Sources */,
 				5812C118257C6AF1002F88CA /* TabBarViewController.swift in Sources */,
 				5812C120257C7E34002F88CA /* UserViewController.swift in Sources */,
 				5840AA16257D4C210075EB1D /* SearchFilterDelegateController.swift in Sources */,

@@ -20,7 +20,8 @@ class PlaceCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect){
         super.init(frame: frame)
         
-        contentView.backgroundColor = UIColor(red: 208/255.0, green: 240/255.0, blue: 192/255.0, alpha: 1.0)
+       // contentView.backgroundColor = UIColor(red: 208/255.0, green: 240/255.0, blue: 192/255.0, alpha: 1.0)
+        contentView.backgroundColor = UIColor.white
         setUpViews()
         setUpConstraints()
 
@@ -33,8 +34,8 @@ class PlaceCollectionViewCell: UICollectionViewCell {
         self.contentView.layer.masksToBounds = true
         
         self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
-        self.layer.shadowRadius = 1.0
+        self.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        self.layer.shadowRadius = 2.0
         self.layer.shadowOpacity = 0.3
         self.layer.masksToBounds = false
         
@@ -45,30 +46,32 @@ class PlaceCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         
         placeCategory = UITextView()
-        placeCategory.textAlignment = .center
+        placeCategory.textAlignment = .left
         placeCategory.textColor = .darkGray
-        placeCategory.font = UIFont.systemFont(ofSize: 14)
+        placeCategory.font = UIFont.systemFont(ofSize: 18)
         
         // Helpful website for UI colors: https://www.uicolor.io/
        // placeCategory.backgroundColor = UIColor(red: 0.16, green: 0.71, blue: 0.96, alpha: 0.5)
-        placeCategory.backgroundColor = UIColor(red: 208/255.0, green: 240/255.0, blue: 192/255.0, alpha: 1.0)
-        placeCategory.backgroundColor = UIColor(red: 252/255.0, green: 244/255.0, blue: 163/255.0, alpha: 1.0)
+        //placeCategory.backgroundColor = UIColor(red: 208/255.0, green: 240/255.0, blue: 192/255.0, alpha: 1.0)
+        //placeCategory.backgroundColor = UIColor(red: 235/255.0, green: 247/255.0, blue: 251/255.0, alpha: 1.0)
         placeCategory.translatesAutoresizingMaskIntoConstraints = false
         placeCategory.isEditable = false
         placeCategory.isScrollEnabled = false
-        contentView.addSubview(placeCategory)
         
         placeLocationDescription = UITextView()
-        placeLocationDescription.textAlignment = .center
-        placeLocationDescription.textColor = .darkGray
-        placeLocationDescription.font = UIFont.systemFont(ofSize: 16)
+        placeLocationDescription.textAlignment = .left
+        placeLocationDescription.textColor = .lightGray
+        placeLocationDescription.font = UIFont.systemFont(ofSize: 14)
         
-        placeLocationDescription.backgroundColor = UIColor(red: 208/255.0, green: 240/255.0, blue: 192/255.0, alpha: 1.0)
-        //placeLocationDescription.backgroundColor = UIColor(red: 208/255.0, green: 240/255.0, blue: 192/255.0, alpha: 1)
+        //placeLocationDescription.backgroundColor = UIColor(red: 208/255.0, green: 240/255.0, blue: 192/255.0, alpha: 1.0)
+        
+        //placeLocationDescription.backgroundColor = UIColor(red: 235/255.0, green: 247/255.0, blue: 251/255.0, alpha: 1.0)
         placeLocationDescription.translatesAutoresizingMaskIntoConstraints = false
         placeLocationDescription.isEditable = false
         placeLocationDescription.isScrollEnabled = false
         contentView.addSubview(placeLocationDescription)
+        
+        contentView.addSubview(placeCategory)
         
         starButton = UIButton()
 //        if let current = currentPlace{
@@ -84,34 +87,37 @@ class PlaceCollectionViewCell: UICollectionViewCell {
     }
     
     func setUpConstraints(){
-        placeCategory.snp.makeConstraints{ make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
-            make.height.equalTo(30)
-            make.width.equalToSuperview()
-        }
         
         imageView.snp.makeConstraints{ make in
             make.centerX.equalToSuperview()
             make.width.equalToSuperview()
             make.top.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-35)
+            //make.bottom.equalToSuperview().offset(60)
+            make.height.equalTo(110)
             
         }
         
-        placeLocationDescription.snp.makeConstraints{ make in
-            //make.centerX.equalToSuperview()
-            make.width.equalToSuperview().offset(-25)
+        placeCategory.snp.makeConstraints{ make in
+            make.leading.equalToSuperview().offset(10)
             make.top.equalTo(imageView.snp.bottom)
-            make.bottom.equalToSuperview()
+            make.height.equalTo(30)
+            make.width.equalToSuperview().offset(-10)
+        }
+        
+        placeLocationDescription.snp.makeConstraints{ make in
+            make.leading.equalToSuperview().offset(10)
+            make.width.equalToSuperview().offset(-10)
+            make.top.equalTo(placeCategory.snp.bottom)
+            make.bottom.equalToSuperview().offset(-5)
+            //make.height.equalTo(20)
 
         }
         
         starButton.snp.makeConstraints{ make in
-            make.width.equalTo(25)
-            make.top.equalTo(imageView.snp.bottom).offset(5)
-            make.bottom.equalToSuperview().offset(-5)
-            make.trailing.equalToSuperview().offset(-5)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+            make.top.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
 
         }
         
@@ -127,7 +133,7 @@ class PlaceCollectionViewCell: UICollectionViewCell {
     func configure(place: Place){
         currentPlace = place
         imageView.image = UIImage(named: place.imageName)
-        placeCategory.text = place.category.uppercased()
+        placeCategory.text = place.category
         placeLocationDescription.text = place.locationDescription
         if place.isFavorite==true{
             starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)}

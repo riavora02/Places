@@ -130,11 +130,11 @@ class SignUpViewController: UIViewController {
     }
     
     @objc func pushLogin() {
-        print("Login pressed")
+      //  print("Login pressed")
     }
     
     @objc func pushSignUp() {
-        print("Sign Up pressed")
+      //  print("Sign Up pressed")
     }
     
     @objc func dismissViewController() {
