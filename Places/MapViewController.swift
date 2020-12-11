@@ -67,7 +67,7 @@ class MapViewController: SearchFilterDelegateController {
         view.addSubview(search)
         
         map = MKMapView()
-       // map.delegate = self
+        map.delegate = self
         locationmanager = CLLocationManager()
         checkServices()
         
@@ -278,14 +278,23 @@ extension MapViewController: MKMapViewDelegate {
         let identifier = "placepin"
         var annotationView = map.dequeueReusableAnnotationView(withIdentifier: identifier)
         if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
             annotationView?.rightCalloutAccessoryView=UIButton(type: .detailDisclosure)
+            //annotationView?.backgroundColor = UIColor.purple
         } else {
             annotationView?.annotation = annotation
         }
 
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let place = view.annotation as! Place
+        
+        let placeVC = PlaceDetailViewController(place: place)
+        navigationController?.pushViewController(placeVC, animated: true)
+        
     }
 
 }

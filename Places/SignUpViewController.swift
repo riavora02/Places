@@ -23,7 +23,6 @@ class SignUpViewController: UIViewController {
     
     init(delegate: SignUpViewDelegate?, titleString: String?) {
         super.init(nibName: nil, bundle: nil)
-        
         self.delegate = delegate
         self.titleString = titleString
     }

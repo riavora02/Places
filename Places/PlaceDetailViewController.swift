@@ -29,6 +29,8 @@ class PlaceDetailViewController: UIViewController {
     var reviewsCollectionView: UICollectionView!
     var reviewsTitle: UITextView!
     
+    var addReviewButton: UIButton! 
+    
     var reviewReuseIdentifier = "rev"
     
 
@@ -159,6 +161,14 @@ class PlaceDetailViewController: UIViewController {
         reviewsCollectionView.delegate = self
         reviewsCollectionView.register(ReviewCollectionViewCell.self, forCellWithReuseIdentifier: reviewReuseIdentifier)
         view.addSubview(reviewsCollectionView)
+        
+        addReviewButton = UIButton()
+        addReviewButton.backgroundColor = darkBlue
+        addReviewButton.setTitleColor(lightBlue, for: .normal)
+        addReviewButton.layer.cornerRadius = 10
+        addReviewButton.setTitle("Add Review", for: .normal)
+        addReviewButton.addTarget(self, action: #selector(addReviewPopUp), for: .touchUpInside)
+        view.addSubview(addReviewButton)
     
     }
     
@@ -212,6 +222,13 @@ class PlaceDetailViewController: UIViewController {
             make.top.equalTo(categoryName.snp.bottom).offset(padding/4)
          }
         
+        addReviewButton.snp.makeConstraints{ make in
+            make.height.equalTo(25)
+            make.width.equalTo(110)
+            make.top.equalTo(image.snp.bottom).offset(25)
+            make.trailing.equalToSuperview().offset(-15)
+         }
+        
         locationDescription.snp.makeConstraints{ make in
             make.leading.equalToSuperview().offset(padding)
             make.trailing.equalToSuperview().offset(-padding)
@@ -244,6 +261,11 @@ class PlaceDetailViewController: UIViewController {
 
     }
 
+    @objc func addReviewPopUp(){
+        let addReviewViewController = AddReviewViewController()
+        //self.navigationController?.pushViewController(addReviewViewController, animated: true)
+        present(addReviewViewController, animated: true, completion: nil)
+    }
 }
 
 extension PlaceDetailViewController: UICollectionViewDataSource {

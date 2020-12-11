@@ -116,7 +116,7 @@ class PlaceCollectionViewCell: UICollectionViewCell {
         starButton.snp.makeConstraints{ make in
             make.width.equalTo(20)
             make.height.equalTo(20)
-            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
             make.trailing.equalToSuperview().offset(-10)
 
         }

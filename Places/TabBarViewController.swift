@@ -20,13 +20,13 @@ class TabBarViewController: UITabBarController {
         let favoritesViewController = FavoritesViewController()
         
         
-        blockViewController.tabBarItem = UITabBarItem(title: "BLOCK", image: nil, tag: 0)
-        mapViewController.tabBarItem = UITabBarItem(title: "MAP", image: nil, tag: 1)
-        favoritesViewController.tabBarItem = UITabBarItem(title: "SAVED", image: nil, tag: 2)
-        userViewController.tabBarItem = UITabBarItem(title: "USER", image: nil, tag: 3)
+        blockViewController.tabBarItem = UITabBarItem(title: "Tile", image: UIImage(systemName: "server.rack"), tag: 0)
+        mapViewController.tabBarItem = UITabBarItem(title: "Map", image: UIImage(systemName: "map.fill"), tag: 1)
+        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star.fill"), tag: 2)
+        userViewController.tabBarItem = UITabBarItem(title: "Contribute",image: UIImage(systemName: "person.fill"), tag: 3)
        // blockViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: -10)
       
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16)], for: .normal)
+        //UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16)], for: .normal)
         self.tabBar.isOpaque = true
         self.setViewControllers([mapViewController, blockViewController, favoritesViewController, userViewController], animated: true)
         
@@ -35,8 +35,7 @@ class TabBarViewController: UITabBarController {
     override func viewDidLayoutSubviews() {
         // Reference: https://webappcodes.com/change-tabbar-height-in-swift-5-for-ios-13
         super.viewDidLayoutSubviews()
-        tabBar.frame.size.height = 75
-        tabBar.frame.origin.y = view.frame.height - 75
+        
     }
     
 }

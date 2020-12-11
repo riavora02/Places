@@ -22,6 +22,7 @@
 		5840AA10257D39C80075EB1D /* PlaceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5840AA0F257D39C80075EB1D /* PlaceCollectionViewCell.swift */; };
 		5840AA16257D4C210075EB1D /* SearchFilterDelegateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5840AA15257D4C210075EB1D /* SearchFilterDelegateController.swift */; };
 		585572BC25813AAB00D5226B /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585572BB25813AAB00D5226B /* StarView.swift */; };
+		585572BF2582F6E900D5226B /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585572BE2582F6E900D5226B /* AddReviewViewController.swift */; };
 		5865BCFC257FFEE800F1A0AB /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865BCFB257FFEE800F1A0AB /* PlaceDetailViewController.swift */; };
 		5865BD0525807CEF00F1A0AB /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865BD0425807CEF00F1A0AB /* Review.swift */; };
 		5865BD082581108700F1A0AB /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865BD072581108700F1A0AB /* ReviewCollectionViewCell.swift */; };
@@ -49,6 +50,7 @@
 		5840AA0F257D39C80075EB1D /* PlaceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCollectionViewCell.swift; sourceTree = "<group>"; };
 		5840AA15257D4C210075EB1D /* SearchFilterDelegateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterDelegateController.swift; sourceTree = "<group>"; };
 		585572BB25813AAB00D5226B /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
+		585572BE2582F6E900D5226B /* AddReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
 		5865BCFB257FFEE800F1A0AB /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
 		5865BD0425807CEF00F1A0AB /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		5865BD072581108700F1A0AB /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				5812C11F257C7E34002F88CA /* UserViewController.swift */,
 				5813E0F9257C453B004F4FA9 /* ViewController.swift */,
 				585572BB25813AAB00D5226B /* StarView.swift */,
+				585572BE2582F6E900D5226B /* AddReviewViewController.swift */,
 			);
 			path = Places;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				5865BD082581108700F1A0AB /* ReviewCollectionViewCell.swift in Sources */,
 				5812C118257C6AF1002F88CA /* TabBarViewController.swift in Sources */,
 				5812C120257C7E34002F88CA /* UserViewController.swift in Sources */,
+				585572BF2582F6E900D5226B /* AddReviewViewController.swift in Sources */,
 				5840AA16257D4C210075EB1D /* SearchFilterDelegateController.swift in Sources */,
 				5812C135257C88FB002F88CA /* FilterCollectionViewCell.swift in Sources */,
 				5812C124257C81A2002F88CA /* FavoritesViewController.swift in Sources */,

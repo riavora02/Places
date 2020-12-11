@@ -115,8 +115,14 @@ class UserViewController: UIViewController {
     }
     
     @objc func pushSignUp() {
+        
         let vc = SignUpViewController(delegate: self, titleString: "Sign Up")
+//        vc.modalPresentationStyle = .overCurrentContext
+//        vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
+        
+       // let vc = SignUpViewController(delegate: self, titleString: "Sign Up")
+       // present(vc, animated: true, completion: nil)
     }
     
     
