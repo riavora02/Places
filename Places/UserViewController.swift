@@ -18,6 +18,7 @@ class UserViewController: UIViewController {
     var signUp: UIButton!
     var logo: UIImageView!
     var passwordClicked = false
+    var badEntry: UILabel!
     
     
 
@@ -67,6 +68,14 @@ class UserViewController: UIViewController {
         logo.contentMode = .scaleAspectFit
         view.addSubview(logo)
         
+        badEntry = UILabel()
+        badEntry.translatesAutoresizingMaskIntoConstraints = false
+        badEntry.text = "Must enter a valid username and password!"
+        badEntry.isHidden = true
+        badEntry.backgroundColor = .white
+        badEntry.textColor = .red
+        view.addSubview(badEntry)
+        
         setupConstraints()
     }
     
@@ -102,7 +111,11 @@ class UserViewController: UIViewController {
             signUp.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             signUp.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -96),
         ])
-
+        NSLayoutConstraint.activate([
+            badEntry.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            badEntry.topAnchor.constraint(equalTo: login.bottomAnchor, constant: 12),
+            badEntry.heightAnchor.constraint(equalTo: login.heightAnchor, multiplier: 0.5)
+        ])
     }
     
     @objc func textFieldDidChange() {
@@ -112,6 +125,19 @@ class UserViewController: UIViewController {
     
     @objc func pushLogin() {
         print("Login pressed")
+        print(userName.text!)
+        print(password.text!)
+        if (userName.text! != "") && (password.text! != "") {
+            badEntry.isHidden = true
+            NetworkManager.addUser(email: userName.text!, password: password.text!) {_ in
+                DispatchQueue.main.async {
+                    print("Logged In!")
+                }
+            }
+        } else {
+            badEntry.isHidden = false
+        }
+        
     }
     
     @objc func pushSignUp() {
