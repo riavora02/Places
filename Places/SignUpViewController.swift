@@ -148,10 +148,10 @@ class SignUpViewController: UIViewController {
         print(password2.text!)
         if (userName.text! != "") && (password.text! != "") && (password2.text! != "") {
             badEntry.isHidden = true
-            NetworkManager.addUser(email: userName.text!, password: password2.text!) {_ in
-                DispatchQueue.main.async {
-                    self.dismissViewController()            }
+            NetworkManager.addUser(email: userName.text!, username: userName.text!, password: password.text!) {_ in
             }
+            DispatchQueue.main.async {
+                self.dismissViewController()            }
         } else {
             badEntry.isHidden = false
         }

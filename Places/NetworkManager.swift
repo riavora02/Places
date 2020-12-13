@@ -14,17 +14,19 @@ class NetworkManager {
     /* Helpful Hint: What is the host endpoint for our server?
      * Ex. If endpoint is "https://google.com/blah", Google is the host
      */
-    
+    private static let host = "https://places-backend-wk.herokuapp.com/"
     // TODO: Complete function to get a single restaurant
-    static func signIn(email: String, password: String, completion: @escaping (User) -> Void) {
+    static func signIn(email: String, username: String, password: String, completion: @escaping (User) -> Void) {
         let parameters: [String: Any] = [
             "email": email,
+            "username": username,
             "password": password
         ]
-        let endpoint = "localhost:5004/users/login"
+        let endpoint = "\(host)/users/login"
         AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseData { response in
             switch response.result {
             case .success(let data):
+                print("Logged In")
                 let jsonDecoder = JSONDecoder()
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 if let user = try? jsonDecoder.decode(User.self, from: data) {
@@ -40,18 +42,17 @@ class NetworkManager {
     }
     
     // Function to add user
-    static func addUser(email: String, password: String, completion: @escaping ([User]) -> Void) {
-        let endpoint = "localhost:5004/users/register"
-        AF.request(endpoint, method: .get, encoding: JSONEncoding.default).validate().responseData { response in
+    static func addUser(email: String, username: String, password: String, completion: @escaping (User) -> Void) {
+        let parameters: [String: Any] = [
+            "email": email,
+            "username": username,
+            "password": password
+        ]
+        let endpoint = "\(host)/users/register"
+        AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseData { response in
             switch response.result {
-            case .success(let data):
-                let jsonDecoder = JSONDecoder()
-                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-                if let userData = try? jsonDecoder.decode(UsersDataResponse.self, from: data) {
-                    DispatchQueue.main.async {
-                        completion(userData.users)
-                    }
-                }
+            case .success(_):
+                print("created account")
             case .failure(let error):
                 print(error.localizedDescription)
             }

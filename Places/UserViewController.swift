@@ -20,6 +20,7 @@ class UserViewController: UIViewController {
     var passwordClicked = false
     var badEntry: UILabel!
     
+    var user: User!
     
 
     override func viewDidLoad() {
@@ -124,15 +125,11 @@ class UserViewController: UIViewController {
 
     
     @objc func pushLogin() {
-        print("Login pressed")
-        print(userName.text!)
-        print(password.text!)
         if (userName.text! != "") && (password.text! != "") {
             badEntry.isHidden = true
-            NetworkManager.addUser(email: userName.text!, password: password.text!) {_ in
-                DispatchQueue.main.async {
-                    print("Logged In!")
-                }
+            NetworkManager.signIn(email: userName.text!, username: userName.text!, password: password.text!) { user in
+                mainUser = user
+                print(user.username)
             }
         } else {
             badEntry.isHidden = false

@@ -10,7 +10,7 @@ struct UsersDataResponse: Codable {
     /* Instructions: Take a look at the JSON response we get from our HTTP Requests.
      * Model your RestaurantsDataResponse object after the JSON response.
      */
-    var users: [User]
+    var user: [User]
 }
 
 
@@ -24,6 +24,9 @@ struct User: Codable {
      * this in our model despite this being the case? Think about what we do when
      * a value is allowed to be nil...
      */
-    var email: String
-    var password: String
+    var user_id: Int
+    var username: String
+    var session_token: String
+    var session_expiration: String
+    var update_token: String
 }
