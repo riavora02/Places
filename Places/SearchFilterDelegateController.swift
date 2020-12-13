@@ -16,6 +16,10 @@ class SearchFilterDelegateController: UIViewController {
     var placeCollectionView: UICollectionView!
     var filterCollectionView: UICollectionView!
     var search: UISearchBar!
+    
+    var places: [Place] = []
+    var originalData: [Place] = []
+    var filteredPlaces: [(Place,String)] = []
 
 
 //    var places: [Place] = []
@@ -41,14 +45,13 @@ class SearchFilterDelegateController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        places = [place1, place2, place3, place4, place5, place6]
         filters = [filter1, filter2, filter3, filter4, filter5, filter6, filter7]
-        originalData = places
-        filteredPlaces = dataToFilter(places: places)
+        //filteredPlaces = dataToFilter(places: places)
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        places = [place1, place2, place3, place4, place5, place6]
+       // places = [place1, place2, place3, place4, place5, place6]
         originalData = places
     }
     
@@ -57,7 +60,7 @@ class SearchFilterDelegateController: UIViewController {
         for filter in filters{
             if filter.isSelected == true {
                 for place in originalData {
-                    if(place.category == filter.name){
+                    if(place.types == filter.name){
                         places.append(place)
                     }
                 }
@@ -72,11 +75,24 @@ class SearchFilterDelegateController: UIViewController {
     func dataToFilter(places: [Place]) -> [(Place,String)] {
         var filteredPlacesText: [(place: Place, string: String)] = []
         for place in places {
-            filteredPlacesText.append((place: place, string: place.category))
-            filteredPlacesText.append((place: place, string: place.locationDescription))
+            filteredPlacesText.append((place: place, string: place.types))
+            filteredPlacesText.append((place: place, string: place.name))
         }
         return filteredPlacesText
     }
+    
+    func getPlaces() {
+        
+        NetworkManager.getPlaces{ places in
+            self.places = places
+            DispatchQueue.main.async {
+                self.placeCollectionView.reloadData()
+
+            }
+        }
+    }
+
+    
 }
 
 
@@ -128,7 +144,7 @@ extension SearchFilterDelegateController: UICollectionViewDelegate {
             let filter = filters[indexPath.row]
             filter.isSelected.toggle()
             places = dataToShow()
-            filteredPlaces = dataToFilter(places: places)
+            //filteredPlaces = dataToFilter(places: places)
             
             filterCollectionView.reloadData()
             placeCollectionView.reloadData()
@@ -152,11 +168,11 @@ extension SearchFilterDelegateController: UISearchBarDelegate {
             return
         }
         var placesfiltered:[Place] = []
-        for (place, result) in filteredPlaces {
-            if result.lowercased().contains(searchText.lowercased()) {
-                placesfiltered.append(place)
-            }
-        }
+//        for (place, result) in filteredPlaces {
+//            if result.lowercased().contains(searchText.lowercased()) {
+//                placesfiltered.append(place)
+//            }
+//        }
         
         places = placesfiltered
         placeCollectionView.reloadData()

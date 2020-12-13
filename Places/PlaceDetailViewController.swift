@@ -7,13 +7,14 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class PlaceDetailViewController: UIViewController {
     
     var padding = 20
     var collectionPadding: CGFloat = 10
     var currentPlace: Place!
-    var currentReviews: [Review]!
+   // var currentReviews: [Review]!
     
     var image: UIImageView!
     var star1: UIImageView!
@@ -25,7 +26,6 @@ class PlaceDetailViewController: UIViewController {
     
     var categoryName: UITextView!
     var locationDescription: UITextView!
-    var notes: UITextView!
     var reviewsCollectionView: UICollectionView!
     var reviewsTitle: UITextView!
     
@@ -37,7 +37,7 @@ class PlaceDetailViewController: UIViewController {
     init(place: Place){
         super.init(nibName: nil, bundle: nil)
         currentPlace = place
-        currentReviews = place.reviews
+      //  currentReviews = place.reviews
     }
     
     required init?(coder: NSCoder) {
@@ -71,15 +71,14 @@ class PlaceDetailViewController: UIViewController {
     
     func setUpViews(){
         image = UIImageView()
-        image.image = UIImage(named: currentPlace.imageName)
-//        image.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-//        image.tintColor = .black
+        let photoURL = URL(string: currentPlace.image_url)
+        image.kf.setImage(with: photoURL)
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         view.addSubview(image)
         
         categoryName = UITextView()
-        categoryName.text = currentPlace.category
+        categoryName.text = currentPlace.types
         categoryName.font = .systemFont(ofSize: 30)
         categoryName.textColor = .darkGray
         categoryName.textAlignment = .left
@@ -87,57 +86,49 @@ class PlaceDetailViewController: UIViewController {
         view.addSubview(categoryName)
         
         locationDescription = UITextView()
-        locationDescription.text = "Location: " + currentPlace.locationDescription
+        locationDescription.text = "Location: " + currentPlace.name
         locationDescription.font = .systemFont(ofSize: 18 )
         locationDescription.textColor = .lightGray
         locationDescription.textAlignment = .left
         locationDescription.isEditable = false
         view.addSubview(locationDescription)
         
-        notes = UITextView()
-        notes.text = "Notes: " + currentPlace.notes
-        notes.font = .systemFont(ofSize: 18)
-        notes.textColor = .lightGray
-        notes.textAlignment = .left
-        notes.isEditable = false
-        view.addSubview(notes)
-        
         star1 = UIImageView()
         star1.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-        if currentPlace.rating >= 1 {star1.tintColor = .systemYellow}
-        else {star1.tintColor = .darkGray}
+//        if currentPlace.rating >= 1 {star1.tintColor = .systemYellow}
+//        else {star1.tintColor = .darkGray}
         star1.contentMode = .scaleAspectFill
         star1.clipsToBounds = true
         view.addSubview(star1)
 
         star2 = UIImageView()
         star2.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-        if currentPlace.rating >= 2 {star2.tintColor = .systemYellow}
-        else {star2.tintColor = .darkGray}
+//        if currentPlace.rating >= 2 {star2.tintColor = .systemYellow}
+//        else {star2.tintColor = .darkGray}
         star2.contentMode = .scaleAspectFill
         star2.clipsToBounds = true
         view.addSubview(star2)
         
         star3 = UIImageView()
         star3.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-        if currentPlace.rating >= 3 {star3.tintColor = .systemYellow}
-        else {star3.tintColor = .darkGray}
+//        if currentPlace.rating >= 3 {star3.tintColor = .systemYellow}
+//        else {star3.tintColor = .darkGray}
         star3.contentMode = .scaleAspectFill
         star3.clipsToBounds = true
         view.addSubview(star3)
         
         star4 = UIImageView()
         star4.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-        if currentPlace.rating >= 4 {star4.tintColor = .systemYellow}
-        else {star4.tintColor = .darkGray}
+//        if currentPlace.rating >= 4 {star4.tintColor = .systemYellow}
+//        else {star4.tintColor = .darkGray}
         star4.contentMode = .scaleAspectFill
         star4.clipsToBounds = true
         view.addSubview(star4)
         
         star5 = UIImageView()
         star5.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-        if currentPlace.rating >= 5 {star5.tintColor = .systemYellow}
-        else {star5.tintColor = .darkGray}
+//        if currentPlace.rating >= 5 {star5.tintColor = .systemYellow}
+//        else {star5.tintColor = .darkGray}
         star5.contentMode = .scaleAspectFill
         star5.clipsToBounds = true
         view.addSubview(star5)
@@ -236,13 +227,6 @@ class PlaceDetailViewController: UIViewController {
             make.top.equalTo(categoryName.snp.bottom).offset(padding + 10)
         }
         
-       notes.snp.makeConstraints{ make in
-            make.leading.equalToSuperview().offset(padding)
-            make.trailing.equalToSuperview().offset(-padding)
-            make.height.equalTo(60)
-            make.top.equalTo(locationDescription.snp.bottom).offset(padding/4)
-        }
-        
         
 //        reviewsTitle.snp.makeConstraints{ make in
 //            make.leading.equalToSuperview().offset(padding)
@@ -254,7 +238,7 @@ class PlaceDetailViewController: UIViewController {
         reviewsCollectionView.snp.makeConstraints{ make in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.top.equalTo(notes.snp.bottom).offset(padding/4)
+            make.top.equalTo(locationDescription.snp.bottom).offset(padding/2)
             make.bottom.equalToSuperview()
          }
         
@@ -270,7 +254,8 @@ class PlaceDetailViewController: UIViewController {
 
 extension PlaceDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return currentReviews.count
+       // return currentReviews.count
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -289,8 +274,6 @@ extension PlaceDetailViewController: UICollectionViewDelegateFlowLayout {
         
     }
 }
-
-//extension PlaceDetailViewController: UICollectionViewDelegate
 
 
 

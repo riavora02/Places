@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Review {
+struct Review: Codable {
     
     var user: String
     var review: String

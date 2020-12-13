@@ -59,5 +59,41 @@ class NetworkManager {
         }
     }
     
+    // Get all the places for the app
+    static func getPlaces(completion: @escaping ([Place]) -> Void) {
+        let endpoint = "https://places-backend-wk.herokuapp.com/places"
+        AF.request(endpoint, method: .get).validate().responseData { response in
+            switch response.result {
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                //jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                if let placeData = try? jsonDecoder.decode([Place].self, from: data) {
+                    completion(placeData)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // get Rating by id
+    static func getRating(completion: @escaping (Int) -> Void) {
+        let endpoint = "https://places-backend-wk.herokuapp.com/places/rating/2"
+        AF.request(endpoint, method: .get).validate().responseData { response in
+            switch response.result {
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                //jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                if let ratingData = try? jsonDecoder.decode(Rating.self, from: data) {
+                    // Instructions: Use completion to handle response
+                    let rating = ratingData.rating
+                    completion(rating)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
 }
 

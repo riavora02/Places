@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class PlaceCollectionViewCell: UICollectionViewCell {
     
@@ -81,7 +82,7 @@ class PlaceCollectionViewCell: UICollectionViewCell {
 //                starButton.setImage(UIImage(named: "favoritestar"), for: .normal)
 //            }
 //        }
-        starButton.addTarget(self, action: #selector(toggleButton), for: .touchUpInside)
+       // starButton.addTarget(self, action: #selector(toggleButton), for: .touchUpInside)
         contentView.addSubview(starButton)
         
     }
@@ -132,35 +133,36 @@ class PlaceCollectionViewCell: UICollectionViewCell {
     
     func configure(place: Place){
         currentPlace = place
-        imageView.image = UIImage(named: place.imageName)
-        placeCategory.text = place.category
-        placeLocationDescription.text = place.locationDescription
-        if place.isFavorite==true{
-            starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)}
-        else {
-            starButton.setImage(UIImage(named: "favoritestar"), for: .normal)
-        }
+        let photoURL = URL(string: currentPlace.image_url)
+        imageView.kf.setImage(with: photoURL)
+        placeCategory.text = place.types
+        placeLocationDescription.text = place.name
+//        if place.isFavorite==true{
+//            starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)}
+//        else {
+//            starButton.setImage(UIImage(named: "favoritestar"), for: .normal)
+//        }
     }
     
-    @objc func toggleButton(){
-        if currentPlace.isFavorite == true {
-            
-            currentPlace.isFavorite = false
-            places[currentPlace.tag].isFavorite = false
-            print("hi")
-            starButton.setImage(UIImage(named: "favoritestar"), for: .normal)
-        }
-        else if currentPlace.isFavorite == false{
-            currentPlace.isFavorite = true
-            print(currentPlace.tag!)
-            if currentPlace.tag < places.count {
-                places[currentPlace.tag!].isFavorite = true
-            }
-            starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)
-            
-            for place in places {
-                print("Name: \(String(describing: place.locationDescription)) Is Favorite:  + \(String(describing: place.isFavorite))")
-            }
-        }
-    }
+//    @objc func toggleButton(){
+//        if currentPlace.isFavorite == true {
+//
+//            currentPlace.isFavorite = false
+//            places[currentPlace.tag].isFavorite = false
+//            print("hi")
+//            starButton.setImage(UIImage(named: "favoritestar"), for: .normal)
+//        }
+//        else if currentPlace.isFavorite == false{
+//            currentPlace.isFavorite = true
+//            print(currentPlace.tag!)
+//            if currentPlace.tag < places.count {
+//                places[currentPlace.tag!].isFavorite = true
+//            }
+//            starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)
+//
+//            for place in places {
+//                print("Name: \(String(describing: place.locationDescription)) Is Favorite:  + \(String(describing: place.isFavorite))")
+//            }
+//        }
+//    }
 }
