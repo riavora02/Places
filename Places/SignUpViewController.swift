@@ -19,6 +19,7 @@ class SignUpViewController: UIViewController {
     var signUp: UIButton!
     var logo: UIImageView!
     var passwordClicked = false
+    var badEntry: UILabel!
 
     
     init(delegate: SignUpViewDelegate?, titleString: String?) {
@@ -71,7 +72,7 @@ class SignUpViewController: UIViewController {
         login.setTitle("Sign Up", for: .normal)
         login.backgroundColor = UIColor(red: 179/255, green: 27/255, blue: 27/255, alpha: 1.0)
         login.setTitleColor(.white, for: .normal)
-        login.addTarget(self, action: #selector(pushLogin), for: .touchUpInside)
+        login.addTarget(self, action: #selector(pushSignUp), for: .touchUpInside)
         login.layer.cornerRadius = 10
         view.addSubview(login)
         
@@ -79,6 +80,14 @@ class SignUpViewController: UIViewController {
         logo.translatesAutoresizingMaskIntoConstraints = false
         logo.contentMode = .scaleAspectFit
         view.addSubview(logo)
+        
+        badEntry = UILabel()
+        badEntry.translatesAutoresizingMaskIntoConstraints = false
+        badEntry.text = "Must enter a valid username and password!"
+        badEntry.isHidden = true
+        badEntry.backgroundColor = .white
+        badEntry.textColor = .red
+        view.addSubview(badEntry)
 
         // Do any additional setup after loading the view.
         setupConstraints()
@@ -118,6 +127,11 @@ class SignUpViewController: UIViewController {
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logo.bottomAnchor.constraint(equalTo: userName.topAnchor, constant: -24)
         ])
+        NSLayoutConstraint.activate([
+            badEntry.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            badEntry.topAnchor.constraint(equalTo: login.bottomAnchor, constant: 12),
+            badEntry.heightAnchor.constraint(equalTo: login.heightAnchor, multiplier: 0.5)
+        ])
     }
     
     @objc func textFieldDidChange() {
@@ -128,17 +142,24 @@ class SignUpViewController: UIViewController {
         password2.isSecureTextEntry = true
     }
     
-    @objc func pushLogin() {
-      //  print("Login pressed")
-    }
-    
     @objc func pushSignUp() {
-      //  print("Sign Up pressed")
+        print("Signed Up!")
+        print(userName.text!)
+        print(password2.text!)
+        if (userName.text! != "") && (password.text! != "") && (password2.text! != "") {
+            badEntry.isHidden = true
+            NetworkManager.addUser(email: userName.text!, password: password2.text!) {_ in
+                DispatchQueue.main.async {
+                    self.dismissViewController()            }
+            }
+        } else {
+            badEntry.isHidden = false
+        }
+        
     }
     
     @objc func dismissViewController() {
         // To dismiss something modally, we use the dismiss(animated:completion) command.
-
         dismiss(animated: true, completion: nil)
     }
 }
