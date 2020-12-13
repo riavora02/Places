@@ -129,6 +129,7 @@ class UserViewController: UIViewController {
             badEntry.isHidden = true
             NetworkManager.signIn(email: userName.text!, username: userName.text!, password: password.text!) { user in
                 User.current = user
+                self.navigationController?.pushViewController(TabBarViewController(), animated: true)
             }
         } else {
             badEntry.isHidden = false

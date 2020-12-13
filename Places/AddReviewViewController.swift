@@ -190,6 +190,9 @@ class AddReviewViewController: UIViewController {
     }
     
     @objc func dismissReviewPopUp(){
+        NetworkManager.addReview(userID: User.current!.user_id, placeID: 1, rating: 5, text: reviewText.text){
+            completion in print("hi")
+        }
         dismiss(animated: true, completion: nil)
     }
     
