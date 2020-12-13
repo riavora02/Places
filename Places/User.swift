@@ -24,6 +24,7 @@ struct User: Codable {
      * this in our model despite this being the case? Think about what we do when
      * a value is allowed to be nil...
      */
+    static var current: User?
     var user_id: Int
     var username: String
     var session_token: String

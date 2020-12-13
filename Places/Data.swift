@@ -40,5 +40,3 @@ var favorites: [Place] = []
 
 let lightBlue = UIColor(red: 0.91, green: 0.96, blue: 0.97, alpha: 1.00) 
 let darkBlue = UIColor(red: 0.16, green: 0.71, blue: 0.96, alpha: 0.5)
-
-var mainUser: User?

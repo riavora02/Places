@@ -28,7 +28,6 @@ class NetworkManager {
             case .success(let data):
                 print("Logged In")
                 let jsonDecoder = JSONDecoder()
-                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 if let user = try? jsonDecoder.decode(User.self, from: data) {
                     // Instructions: Use completion to handle response
                     DispatchQueue.main.async {

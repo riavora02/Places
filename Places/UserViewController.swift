@@ -128,8 +128,7 @@ class UserViewController: UIViewController {
         if (userName.text! != "") && (password.text! != "") {
             badEntry.isHidden = true
             NetworkManager.signIn(email: userName.text!, username: userName.text!, password: password.text!) { user in
-                mainUser = user
-                print(user.username)
+                User.current = user
             }
         } else {
             badEntry.isHidden = false
