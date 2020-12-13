@@ -14,6 +14,7 @@ class PlaceDetailViewController: UIViewController {
     var padding = 20
     var collectionPadding: CGFloat = 10
     var currentPlace: Place!
+    var rating: Int = 0
    // var currentReviews: [Review]!
     
     var image: UIImageView!
@@ -57,6 +58,7 @@ class PlaceDetailViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.white
         view.backgroundColor = .white
         
+        getRating()
         setUpViews()
         setUpConstraints()
     }
@@ -95,40 +97,40 @@ class PlaceDetailViewController: UIViewController {
         
         star1 = UIImageView()
         star1.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-//        if currentPlace.rating >= 1 {star1.tintColor = .systemYellow}
-//        else {star1.tintColor = .darkGray}
+        if rating >= 1 {star1.tintColor = .systemYellow}
+        else {star1.tintColor = .darkGray}
         star1.contentMode = .scaleAspectFill
         star1.clipsToBounds = true
         view.addSubview(star1)
 
         star2 = UIImageView()
         star2.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-//        if currentPlace.rating >= 2 {star2.tintColor = .systemYellow}
-//        else {star2.tintColor = .darkGray}
+        if rating >= 2 {star2.tintColor = .systemYellow}
+        else {star2.tintColor = .darkGray}
         star2.contentMode = .scaleAspectFill
         star2.clipsToBounds = true
         view.addSubview(star2)
         
         star3 = UIImageView()
         star3.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-//        if currentPlace.rating >= 3 {star3.tintColor = .systemYellow}
-//        else {star3.tintColor = .darkGray}
+        if rating >= 3 {star3.tintColor = .systemYellow}
+        else {star3.tintColor = .darkGray}
         star3.contentMode = .scaleAspectFill
         star3.clipsToBounds = true
         view.addSubview(star3)
         
         star4 = UIImageView()
         star4.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-//        if currentPlace.rating >= 4 {star4.tintColor = .systemYellow}
-//        else {star4.tintColor = .darkGray}
+        if rating >= 4 {star4.tintColor = .systemYellow}
+        else {star4.tintColor = .darkGray}
         star4.contentMode = .scaleAspectFill
         star4.clipsToBounds = true
         view.addSubview(star4)
         
         star5 = UIImageView()
         star5.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-//        if currentPlace.rating >= 5 {star5.tintColor = .systemYellow}
-//        else {star5.tintColor = .darkGray}
+        if rating >= 5 {star5.tintColor = .systemYellow}
+        else {star5.tintColor = .darkGray}
         star5.contentMode = .scaleAspectFill
         star5.clipsToBounds = true
         view.addSubview(star5)
@@ -244,6 +246,13 @@ class PlaceDetailViewController: UIViewController {
         
 
     }
+    
+    func getRating() {
+        NetworkManager.getRating{rating in
+            self.rating = rating
+        }
+    }
+    
 
     @objc func addReviewPopUp(){
         let addReviewViewController = AddReviewViewController()

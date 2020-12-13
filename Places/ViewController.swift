@@ -7,7 +7,19 @@
 
 import UIKit
 
-class ViewController: SearchFilterDelegateController {
+class ViewController: UIViewController {
+    
+    let placeCellReuse = "placeCellReuseIdentifier"
+    let filterCellReuse = "filterCellReuseIdentifier"
+    let padding: CGFloat = 10
+    
+    var placeCollectionView: UICollectionView!
+    var filterCollectionView: UICollectionView!
+    var search: UISearchBar!
+    
+    var places: [Place] = []
+    var filteredData: [Place] = []
+    var filteredPlaces: [(Place,String)] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,12 +28,17 @@ class ViewController: SearchFilterDelegateController {
         
         setUpViews() 
         setUpConstraints()
+        getPlaces()
+        
+        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
+        filteredData = places
+        filteredPlaces = dataToFilter(places: places)
 
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
 
     func setUpViews(){
 
@@ -84,6 +101,125 @@ class ViewController: SearchFilterDelegateController {
         }
        
 
+    }
+    
+    func getPlaces() {
+        NetworkManager.getPlaces{place in
+            self.places = place
+            DispatchQueue.main.async {
+                self.filteredData  = self.places
+                self.placeCollectionView.reloadData()
+            }
+        }
+    }
+    
+    func dataToShow() -> [Place] {
+        var dataToShowPlaces: [Place] = []
+        for filter in filters{
+            if filter.isSelected == true {
+                for place in places {
+                    if(place.types == filter.name){
+                        dataToShowPlaces.append(place)
+                    }
+                }
+            }
+        }
+        if dataToShowPlaces.count == 0 {
+            return places
+        }
+        return dataToShowPlaces
+    }
+    
+    func dataToFilter(places: [Place]) -> [(Place,String)] {
+        var filteredPlacesText: [(place: Place, string: String)] = []
+        for place in places {
+            filteredPlacesText.append((place: place, string: place.types))
+            filteredPlacesText.append((place: place, string: place.name))
+        }
+        return filteredPlacesText
+    }
+    
+}
+
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == filterCollectionView{
+            return filters.count
+        }
+        else {
+            return filteredData.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == filterCollectionView{
+            let cell = filterCollectionView.dequeueReusableCell(withReuseIdentifier: filterCellReuse, for: indexPath) as! FilterCollectionViewCell
+            cell.configure(filter: filters[indexPath.row])
+            return cell
+        }
+        else {
+            let cell = placeCollectionView.dequeueReusableCell(withReuseIdentifier: placeCellReuse, for: indexPath) as! PlaceCollectionViewCell
+            let filteredData = dataToShow()
+            cell.configure(place: filteredData[indexPath.row])
+            return cell
+        }
+    }
+    
+    
+}
+
+extension ViewController: UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == filterCollectionView {
+            let size = collectionView.frame.height - padding
+            let width = (filters[indexPath.row].name + "     ").size(withAttributes: [.font: UIFont.systemFont(ofSize: 16)]).width
+            return CGSize(width: width, height: size)
+        }
+        else {
+            let size = (collectionView.frame.width - padding) / 2.0
+            return CGSize(width: size, height: size)
+        }
+    }
+}
+
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == filterCollectionView {
+            let filter = filters[indexPath.row]
+            filter.isSelected.toggle()
+            filteredData = dataToShow()
+            filterCollectionView.reloadData()
+            placeCollectionView.reloadData()
+        }
+
+        if collectionView == placeCollectionView  {
+            let place = filteredData[indexPath.row]
+            let placeVC = PlaceDetailViewController(place: place)
+            navigationController?.pushViewController(placeVC, animated: true)
+        }
+    }
+}
+
+
+// Set Up Search Bar: https://www.youtube.com/watch?v=wVeX68Iu43E
+extension ViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            filteredData = dataToShow()
+            placeCollectionView.reloadData()
+            return
+        }
+        var placesfiltered:[Place] = []
+        filteredPlaces = dataToFilter(places: filteredData)
+        for (place, result) in filteredPlaces {
+            if result.lowercased().contains(searchText.lowercased()) {
+                placesfiltered.append(place)
+            }
+        }
+        filteredData = placesfiltered
+        placeCollectionView.reloadData()
+        
     }
 }
 
