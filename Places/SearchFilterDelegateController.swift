@@ -42,7 +42,7 @@ class SearchFilterDelegateController: UIViewController {
         super.viewDidLoad()
         
         places = [place1, place2, place3, place4, place5, place6]
-        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
+        filters = [filter1, filter2, filter3, filter4, filter5, filter6, filter7]
         originalData = places
         filteredPlaces = dataToFilter(places: places)
     }
