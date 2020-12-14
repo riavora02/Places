@@ -176,8 +176,8 @@ class NetworkManager {
 //        let header: HTTPHeaders = [
 //            "Authorization": "Bearer " + User.current!.session_token
 //        ]
-        let endpoint = "https://places-backend-wk.herokuapp.com/reviews?user=13"
-
+        let endpoint = "\(host)/reviews?user=\(userID ?? -1)"
+        print(endpoint)
         AF.request(endpoint, method: .get).validate().responseData { response in
             switch response.result {
             case .success(let data):
