@@ -26,6 +26,7 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
         
         placeImage = UIImageView()
@@ -119,7 +120,7 @@ class UserViewController: UIViewController {
             print("trying to login")
             NetworkManager.signIn(email: userName.text!, username: userName.text!, password: password.text!) { user in
                 User.current = user
-                self.navigationController?.pushViewController(TabBarViewController(), animated: true)
+                self.navigationController?.pushViewController(TabBarViewController(), animated: false)
             }
         }
     }
