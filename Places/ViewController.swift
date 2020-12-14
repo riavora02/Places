@@ -106,8 +106,8 @@ class ViewController: UIViewController {
     func getPlaces() {
         NetworkManager.getPlaces{place in
             self.places = place
+            self.filteredData  = self.places
             DispatchQueue.main.async {
-                self.filteredData  = self.places
                 self.placeCollectionView.reloadData()
             }
         }
@@ -159,7 +159,6 @@ extension ViewController: UICollectionViewDataSource {
         }
         else {
             let cell = placeCollectionView.dequeueReusableCell(withReuseIdentifier: placeCellReuse, for: indexPath) as! PlaceCollectionViewCell
-            let filteredData = dataToShow()
             cell.configure(place: filteredData[indexPath.row])
             return cell
         }
@@ -218,6 +217,8 @@ extension ViewController: UISearchBarDelegate {
             }
         }
         filteredData = placesfiltered
+        print("this is the filtered Data")
+        print(filteredData)
         placeCollectionView.reloadData()
         
     }
