@@ -17,13 +17,10 @@ import UIKit
 //var place5 = Place(imageName: "atm1", rating: 4, category: "ATM", locationDescription: "Klarman Hall", isFavorite: false, tag: 4, latitude: 42.449229244065165, longitude: -76.48318494212269, notes: "Behind conference room on 1st floor.", reviews: reviews)
 //var place6 = Place(imageName: "atm1", rating: 2, category: "ATM", locationDescription: "Phillps Hall", isFavorite: false, tag: 5, latitude: 42.44502410128889, longitude: -76.48227883048034, notes: "Behind conference room on 1st floor.", reviews: reviews)
 
-var filter1 = Filter(name: "Blue", type: "item", isSelected: false)
-var filter2 = Filter(name: "AllGender", type: "item", isSelected: false)
+var filter1 = Filter(name: "Blue Light", type: "item", isSelected: false)
+var filter2 = Filter(name: "Bathroom", type: "item", isSelected: false)
 var filter3 = Filter(name: "Water", type: "item", isSelected: false)
-var filter7 = Filter(name: "Blue Light Zone", type: "item", isSelected: false)
-var filter4 = Filter(name: "< 500ft", type: "distance", isSelected: false)
-var filter5 = Filter(name: "< 1 mi", type: "distance", isSelected: false)
-var filter6 = Filter(name: "< 2 mi", type: "distance", isSelected: false)
+var filter4 = Filter(name: "View All", type: "item", isSelected: false)
 
 //var review1 = Review(user: "Jacob R.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 4, placeTag: 1)
 //var review2 = Review(user: "Michelle V.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 3, placeTag: 1)
@@ -32,7 +29,7 @@ var filter6 = Filter(name: "< 2 mi", type: "distance", isSelected: false)
 //var review5 = Review(user: "Professor G.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 2, placeTag: 1)
 
 //var places = [place1, place2, place3, place4, place5, place6]
-var filters = [filter1, filter2, filter3, filter4, filter5, filter6, filter7]
+var filters = [filter1, filter2, filter3, filter4]
 //var reviews = [review1, review2, review3, review4, review5]
 //var originalData = places
 //var filteredPlaces: [(place: Place, name: String)] = []

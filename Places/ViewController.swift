@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         setUpConstraints()
         getPlaces()
         
-        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
+        filters = [filter1, filter2, filter3, filter4]
         filteredData = places
         filteredPlaces = dataToFilter(places: places)
 

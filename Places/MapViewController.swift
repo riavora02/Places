@@ -33,7 +33,7 @@ class MapViewController: UIViewController {
         
         getPlaces()
         
-        filters = [filter1, filter2, filter3, filter4, filter5, filter6]
+        filters = [filter1, filter2, filter3, filter4]
         filteredData = places
         filteredPlaces = dataToFilter(places: places)
         
@@ -76,12 +76,20 @@ class MapViewController: UIViewController {
         map = MKMapView()
         map.delegate = self
         locationmanager = CLLocationManager()
-        checkServices()
+       // checkServices()
+        
+        let location2 = CLLocationCoordinate2D(latitude: 42.44497980660144, longitude: -76.48413325746588)
+        let region = MKCoordinateRegion(center: location2, latitudinalMeters: 500, longitudinalMeters: 500)
+        map.setRegion(region, animated: false)
         
         
         for place in places {
+            print("initializing")
             let annotation = MKPointAnnotation()
             annotation.title = String(place.types)
+            annotation.subtitle = String(place.id)
+            print(place.id)
+            print(annotation.subtitle!)
             annotation.coordinate = CLLocationCoordinate2D(latitude: place.lat, longitude: place.lon)
             map.addAnnotation(annotation)
         }
@@ -116,12 +124,15 @@ class MapViewController: UIViewController {
     func getPlaces() {
         NetworkManager.getPlaces{place in
             self.places = place
+            self.filteredData = place
             DispatchQueue.main.async {
                 for place in self.places {
                     let annotation = MKPointAnnotation()
                     annotation.title = String(place.types)
                     annotation.coordinate = CLLocationCoordinate2D(latitude: place.lat, longitude: place.lon)
-                    //_ = UIButton(type: .detailDisclosure)
+                    annotation.subtitle = String(place.id)
+                    print(place.id)
+                    print(annotation.subtitle!)
                     self.map.addAnnotation(annotation)
                 }
                 print("map view")
@@ -133,6 +144,9 @@ class MapViewController: UIViewController {
         var dataToShowPlaces: [Place] = []
         for filter in filters{
             if filter.isSelected == true {
+                if filter.name == "View All"{
+                    return places
+                }
                 for place in places {
                     if(place.types == filter.name){
                         dataToShowPlaces.append(place)
@@ -211,31 +225,36 @@ extension MapViewController: CLLocationManagerDelegate {
 
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("map view got selected")
+        print("place got selected!")
+        let annotationView = view.annotation as! MKPointAnnotation
+        let placeID = Int ((annotationView.subtitle!))
+        print(placeID!)
+        let placeViewController = PlaceDetailViewController(place: filteredData[placeID!])
+        navigationController?.pushViewController(placeViewController, animated: true)
     }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "pin")
-//        annotationView.backgroundColor = UIColor.purple
-//        if let de = mapView.dequeueReusableAnnotationView(withIdentifier: "pin"){
-//            de.tintColor = .blue
-//            return de
-//        }
-//        return nil
-        
-        let identifier = "placepin"
-        var annotationView = map.dequeueReusableAnnotationView(withIdentifier: identifier)
-        if annotationView == nil {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
-            annotationView?.rightCalloutAccessoryView=UIButton(type: .detailDisclosure)
-            //annotationView?.backgroundColor = UIColor.purple
-        } else {
-            annotationView?.annotation = annotation
-        }
-
-        return annotationView
-    }
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+////        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+////        annotationView.backgroundColor = UIColor.purple
+////        if let de = mapView.dequeueReusableAnnotationView(withIdentifier: "pin"){
+////            de.tintColor = .blue
+////            return de
+////        }
+////        return nil
+//
+////        let identifier = "placepin"
+////        var annotationView = map.dequeueReusableAnnotationView(withIdentifier: identifier)
+////        if annotationView == nil {
+////            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+////            annotationView?.canShowCallout = true
+////            annotationView?.rightCalloutAccessoryView=UIButton(type: .detailDisclosure)
+////            //annotationView?.backgroundColor = UIColor.purple
+////        } else {
+////            annotationView?.annotation = annotation
+////        }
+////
+////        return annotationView
+//    }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
        // let place = view.annotation as! Place
@@ -281,6 +300,7 @@ extension MapViewController: UICollectionViewDelegate {
         for place in filteredData {
             let annotation = MKPointAnnotation()
             annotation.title = String(place.types)
+            annotation.subtitle = String(place.id)
             annotation.coordinate = CLLocationCoordinate2D(latitude: place.lat, longitude: place.lon)
             map.addAnnotation(annotation)
         }
@@ -301,6 +321,7 @@ extension MapViewController: UISearchBarDelegate {
             for place in places {
                 let annotation = MKPointAnnotation()
                 annotation.title = String(place.types)
+                annotation.subtitle = String(place.id)
                 annotation.coordinate = CLLocationCoordinate2D(latitude: place.lat, longitude: place.lon)
                 map.addAnnotation(annotation)
             }
@@ -321,6 +342,7 @@ extension MapViewController: UISearchBarDelegate {
          for place in placesfiltered {
              let annotation = MKPointAnnotation()
              annotation.title = String(place.types)
+             annotation.subtitle = String(place.id)
              annotation.coordinate = CLLocationCoordinate2D(latitude: place.lat, longitude: place.lon)
              map.addAnnotation(annotation)
          }
