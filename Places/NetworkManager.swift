@@ -218,5 +218,30 @@ class NetworkManager {
         }
     }
     
+    static func getAllUsers(completion: @escaping ([User]) -> Void) {
+        let header: HTTPHeaders = [
+            "Authorization": "Bearer " + User.current!.session_token
+        ]
+        let endpoint = "\(host)users/all"
+        print(endpoint)
+        AF.request(endpoint, method: .get, headers: header).validate().responseData { response in
+            switch response.result {
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                if let usersData = try? jsonDecoder.decode([User].self, from: data) {
+                    print("this is all users")
+                    completion(usersData)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
+//    for user in allUsers {
+//        if (user.user_id == tryingToFindUserID) {
+//            username = user.username
+//        }
+//    }
+
 }
