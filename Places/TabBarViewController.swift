@@ -16,19 +16,18 @@ class TabBarViewController: UITabBarController {
         
         let blockViewController = ViewController()
         let mapViewController = MapViewController()
-        let userViewController = UserViewController()
-      //  let favoritesViewController = FavoritesViewController()
+        let favoritesViewController = UserFavoritesReviewsViewController()
         
         
         blockViewController.tabBarItem = UITabBarItem(title: "Tile", image: UIImage(systemName: "server.rack"), tag: 0)
         mapViewController.tabBarItem = UITabBarItem(title: "Map", image: UIImage(systemName: "map.fill"), tag: 1)
       //  favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star.fill"), tag: 2)
-        userViewController.tabBarItem = UITabBarItem(title: "Contribute",image: UIImage(systemName: "person.fill"), tag: 3)
+        favoritesViewController.tabBarItem = UITabBarItem(title: "User",image: UIImage(systemName: "person.fill"), tag: 2)
        // blockViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: -10)
       
         //UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16)], for: .normal)
         self.tabBar.isOpaque = true
-        self.setViewControllers([mapViewController, blockViewController, userViewController], animated: true)
+        self.setViewControllers([mapViewController, blockViewController, favoritesViewController], animated: true)
         
     }
     

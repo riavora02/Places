@@ -15,8 +15,9 @@ class PlaceCollectionViewCell: UICollectionViewCell {
     var placeCategory: UITextView!
     var placeLocationDescription: UITextView!
     
-    var starButton: UIButton!
+    var starButton: UIImageView!
     var currentPlace: Place!
+    var markedFavorite: Bool = false
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -69,20 +70,26 @@ class PlaceCollectionViewCell: UICollectionViewCell {
         //placeLocationDescription.backgroundColor = UIColor(red: 235/255.0, green: 247/255.0, blue: 251/255.0, alpha: 1.0)
         placeLocationDescription.translatesAutoresizingMaskIntoConstraints = false
         placeLocationDescription.isEditable = false
-        placeLocationDescription.isScrollEnabled = false
+        placeLocationDescription.isScrollEnabled = true
         contentView.addSubview(placeLocationDescription)
         
         contentView.addSubview(placeCategory)
         
-        starButton = UIButton()
-//        if let current = currentPlace{
-//            if current.isFavorite==true{
-//                starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)}
-//            else {
-//                starButton.setImage(UIImage(named: "favoritestar"), for: .normal)
-//            }
-//        }
-       // starButton.addTarget(self, action: #selector(toggleButton), for: .touchUpInside)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(toggle(gesture:)))
+        starButton = UIImageView()
+        starButton.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate).withTintColor(.lightGray)
+        starButton.tintColor = UIColor.lightGray
+        starButton.contentMode = .scaleAspectFill
+        starButton.clipsToBounds = true
+        starButton.isUserInteractionEnabled = true
+        starButton.addGestureRecognizer(tapGestureRecognizer)
+        if markedFavorite == true {
+            starButton.tintColor = .yellow
+        }
+        else {
+            starButton.tintColor = .lightGray
+            
+        }
         contentView.addSubview(starButton)
         
     }
@@ -117,12 +124,10 @@ class PlaceCollectionViewCell: UICollectionViewCell {
         starButton.snp.makeConstraints{ make in
             make.width.equalTo(20)
             make.height.equalTo(20)
-            make.bottom.equalToSuperview().offset(-10)
+            make.top.equalTo(imageView.snp.bottom).offset(8)
             make.trailing.equalToSuperview().offset(-10)
 
         }
-        
-        
         
         
     }
@@ -137,32 +142,18 @@ class PlaceCollectionViewCell: UICollectionViewCell {
         imageView.kf.setImage(with: photoURL)
         placeCategory.text = place.types
         placeLocationDescription.text = place.name
-//        if place.isFavorite==true{
-//            starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)}
-//        else {
-//            starButton.setImage(UIImage(named: "favoritestar"), for: .normal)
-//        }
     }
     
-//    @objc func toggleButton(){
-//        if currentPlace.isFavorite == true {
-//
-//            currentPlace.isFavorite = false
-//            places[currentPlace.tag].isFavorite = false
-//            print("hi")
-//            starButton.setImage(UIImage(named: "favoritestar"), for: .normal)
-//        }
-//        else if currentPlace.isFavorite == false{
-//            currentPlace.isFavorite = true
-//            print(currentPlace.tag!)
-//            if currentPlace.tag < places.count {
-//                places[currentPlace.tag!].isFavorite = true
-//            }
-//            starButton.setImage(UIImage(named: "favoritestar2"), for: .normal)
-//
-//            for place in places {
-//                print("Name: \(String(describing: place.locationDescription)) Is Favorite:  + \(String(describing: place.isFavorite))")
-//            }
-//        }
-//    }
+    @objc func toggle(gesture: UITapGestureRecognizer){
+        if starButton.tintColor == .lightGray {
+            NetworkManager.addFavorite(placeID: currentPlace.id){
+                completion in self.starButton.tintColor = .systemYellow
+            }
+        }
+        else {
+            NetworkManager.removeFavorite(placeID: currentPlace.id){
+                completion in self.starButton.tintColor = .lightGray
+            }
+        }
+    }
 }
