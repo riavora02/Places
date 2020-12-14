@@ -16,9 +16,10 @@ class AddReviewViewController: UIViewController {
     
     var user: UITextView!
     var reviewText: UITextView!
-    var saveButton: UIButton! 
+    var saveButton: UIButton!
+    var currentPlace: Place! 
     
-    var star1: UIButton!
+    var star1: UIImageView!
     var star2: UIImageView!
     var star3: UIImageView!
     var star4: UIImageView!
@@ -27,10 +28,12 @@ class AddReviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         view.backgroundColor = .clear
         setUpViews()
         setUpConstraints()
+        
     }
     
     func setUpViews(){
@@ -44,6 +47,11 @@ class AddReviewViewController: UIViewController {
 //        self.layer.shadowRadius = 2.0
 //        self.layer.shadowOpacity = 0.3
 //        self.layer.masksToBounds = false
+        let tapGestureRecognizer1 = UITapGestureRecognizer(target: self, action: #selector(toggle1(gesture:)))
+        let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(toggle2(gesture:)))
+        let tapGestureRecognizer3 = UITapGestureRecognizer(target: self, action: #selector(toggle3(gesture:)))
+        let tapGestureRecognizer4 = UITapGestureRecognizer(target: self, action: #selector(toggle4(gesture:)))
+        let tapGestureRecognizer5 = UITapGestureRecognizer(target: self, action: #selector(toggle5(gesture:)))
         
         smallRect = UIView()
         smallRect.backgroundColor = .white
@@ -52,7 +60,7 @@ class AddReviewViewController: UIViewController {
         
         user = UITextView()
         user.textColor = .darkGray
-        user.text = "Jacob Steve"
+        user.text = User.current?.username
         user.font = .systemFont(ofSize: 18)
         user.textAlignment = .left
         user.isEditable = false
@@ -69,35 +77,49 @@ class AddReviewViewController: UIViewController {
         reviewText.isScrollEnabled = true
         smallRect.addSubview(reviewText)
         
-        star1 = UIButton()
-        star1.setImage(UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate).withTintColor(UIColor.red), for: .normal)
-        star1.addTarget(self, action: #selector(toggle), for: .touchUpInside)
+        star1 = UIImageView()
+        star1.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate).withTintColor(.lightGray)
+        star1.tintColor = UIColor.lightGray
         star1.contentMode = .scaleAspectFill
         star1.clipsToBounds = true
+        star1.isUserInteractionEnabled = true
+        star1.addGestureRecognizer(tapGestureRecognizer1)
         smallRect.addSubview(star1)
 
         star2 = UIImageView()
-        star2.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+        star2.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate).withTintColor(.lightGray)
+        star2.tintColor = UIColor.lightGray
         star2.contentMode = .scaleAspectFill
         star2.clipsToBounds = true
+        star2.isUserInteractionEnabled = true
+        star2.addGestureRecognizer(tapGestureRecognizer2)
         smallRect.addSubview(star2)
         
         star3 = UIImageView()
-        star3.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+        star3.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate).withTintColor(.lightGray)
+        star3.tintColor = UIColor.lightGray
         star3.contentMode = .scaleAspectFill
         star3.clipsToBounds = true
+        star3.isUserInteractionEnabled = true
+        star3.addGestureRecognizer(tapGestureRecognizer3)
         smallRect.addSubview(star3)
-        
+//
         star4 = UIImageView()
-        star4.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+        star4.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate).withTintColor(.lightGray)
+        star4.tintColor = UIColor.lightGray
         star4.contentMode = .scaleAspectFill
         star4.clipsToBounds = true
+        star4.isUserInteractionEnabled = true
+        star4.addGestureRecognizer(tapGestureRecognizer4)
         smallRect.addSubview(star4)
         
         star5 = UIImageView()
-        star5.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+        star5.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate).withTintColor(.lightGray)
+        star5.tintColor = UIColor.lightGray
         star5.contentMode = .scaleAspectFill
         star5.clipsToBounds = true
+        star5.isUserInteractionEnabled = true
+        star5.addGestureRecognizer(tapGestureRecognizer5)
         smallRect.addSubview(star5)
         
         saveButton = UIButton()
@@ -107,6 +129,7 @@ class AddReviewViewController: UIViewController {
         saveButton.setTitle("Save", for: .normal)
         saveButton.addTarget(self, action: #selector(dismissReviewPopUp), for: .touchUpInside)
         smallRect.addSubview(saveButton)
+    
         
     }
     
@@ -190,14 +213,63 @@ class AddReviewViewController: UIViewController {
     }
     
     @objc func dismissReviewPopUp(){
-        NetworkManager.addReview(userID: User.current!.user_id, placeID: 1, rating: 5, text: reviewText.text){
+        var tempRating = 0
+        
+        if(star1.tintColor == .systemYellow) {tempRating += 1}
+        if(star2.tintColor == .systemYellow) {tempRating += 1}
+        if(star3.tintColor == .systemYellow) {tempRating += 1}
+        if(star4.tintColor == .systemYellow) {tempRating += 1}
+        if(star5.tintColor == .systemYellow) {tempRating += 1}
+        
+        NetworkManager.addReview(userID: User.current!.user_id, placeID: currentPlace.id, rating: tempRating, text: reviewText.text){
             completion in print("hi")
         }
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func toggle(){
-
+    @objc func toggle1(gesture: UITapGestureRecognizer){
+        if star1.tintColor == .lightGray{
+            star1.tintColor = .systemYellow
+        }
+        else {
+            star1.tintColor = .lightGray
+        }
+    }
+    
+    @objc func toggle2(gesture: UITapGestureRecognizer){
+        if star2.tintColor == .lightGray{
+            star2.tintColor = .systemYellow
+        }
+        else {
+            star2.tintColor = .lightGray
+        }
+    }
+    
+    @objc func toggle3(gesture: UITapGestureRecognizer){
+        if star3.tintColor == .lightGray{
+            star3.tintColor = .systemYellow
+        }
+        else {
+            star3.tintColor = .lightGray
+        }
+    }
+    
+    @objc func toggle4(gesture: UITapGestureRecognizer){
+        if star4.tintColor == .lightGray{
+            star4.tintColor = .systemYellow
+        }
+        else {
+            star4.tintColor = .lightGray
+        }
+    }
+    
+    @objc func toggle5(gesture: UITapGestureRecognizer){
+        if star5.tintColor == .lightGray{
+            star5.tintColor = .systemYellow
+        }
+        else {
+            star5.tintColor = .lightGray
+        }
     }
 
 }

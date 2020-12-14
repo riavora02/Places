@@ -9,9 +9,10 @@ import Foundation
 
 struct Review: Codable {
     
-    var user: String
-    var review: String
+    var id: Int
+    var user_id: Int
+    var place_id: Int
     var rating: Int
-    var placeTag: Int
+    var text: String
     
 }

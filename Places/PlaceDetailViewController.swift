@@ -15,7 +15,8 @@ class PlaceDetailViewController: UIViewController {
     var collectionPadding: CGFloat = 10
     var currentPlace: Place!
     var rating: Int = 0
-   // var currentReviews: [Review]!
+    var currentPlaceReviews: [Review] = []
+    static var allReviews: [Review] = []
     
     var image: UIImageView!
     var star1: UIImageView!
@@ -59,6 +60,7 @@ class PlaceDetailViewController: UIViewController {
         view.backgroundColor = .white
         
         getRating()
+        getReviews()
         setUpViews()
         setUpConstraints()
     }
@@ -250,24 +252,39 @@ class PlaceDetailViewController: UIViewController {
     func getRating() {
         NetworkManager.getRating(id: currentPlace.id){rating in
             self.rating = rating
+            print(rating)
             
             self.star1.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-            if rating >= 5 {self.star1.tintColor = .systemYellow}
+            if rating >= 1 {self.star1.tintColor = .systemYellow}
             self.star2.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-            if rating >= 5 {self.star2.tintColor = .systemYellow}
+            if rating >= 2 {self.star2.tintColor = .systemYellow}
             self.star3.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-            if rating >= 5 {self.star3.tintColor = .systemYellow}
+            if rating >= 3 {self.star3.tintColor = .systemYellow}
             self.star4.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-            if rating >= 5 {self.star4.tintColor = .systemYellow}
+            if rating >= 4 {self.star4.tintColor = .systemYellow}
             self.star5.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
             if rating >= 5 {self.star5.tintColor = .systemYellow}
         }
     }
     
-
+    func getReviews() {
+        NetworkManager.getReviews(place: currentPlace.id){ reviews in
+            PlaceDetailViewController.allReviews = reviews
+            for review in PlaceDetailViewController.allReviews {
+                if review.place_id == self.currentPlace.id {
+                    self.currentPlaceReviews.append(review)
+                }
+            }
+            DispatchQueue.main.async {
+                self.reviewsCollectionView.reloadData()
+                print("review worked")
+            }
+        }
+    }
     @objc func addReviewPopUp(){
         let addReviewViewController = AddReviewViewController()
         //self.navigationController?.pushViewController(addReviewViewController, animated: true)
+        addReviewViewController.currentPlace = self.currentPlace
         present(addReviewViewController, animated: true, completion: nil)
     }
 }
@@ -275,12 +292,12 @@ class PlaceDetailViewController: UIViewController {
 extension PlaceDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        // return currentReviews.count
-        return 5
+        currentPlaceReviews.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = reviewsCollectionView.dequeueReusableCell(withReuseIdentifier: reviewReuseIdentifier, for: indexPath) as! ReviewCollectionViewCell
-        cell.configure(review: reviews[indexPath.row])
+        cell.configure(review: currentPlaceReviews[indexPath.row])
         return cell
     }
 }

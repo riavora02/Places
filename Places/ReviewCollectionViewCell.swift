@@ -159,8 +159,8 @@ class ReviewCollectionViewCell: UICollectionViewCell {
     
     func configure(review: Review){
         self.review = review
-        user.text = review.user
-        reviewText.text = "\"\(review.review)\""
+        user.text = "Sample User"
+        reviewText.text = "\"\(review.text)\""
         
         if review.rating >= 1 {star1.tintColor = .systemYellow}
         else {star1.tintColor = .darkGray}

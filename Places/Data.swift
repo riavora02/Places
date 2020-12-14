@@ -25,15 +25,15 @@ var filter4 = Filter(name: "< 500ft", type: "distance", isSelected: false)
 var filter5 = Filter(name: "< 1 mi", type: "distance", isSelected: false)
 var filter6 = Filter(name: "< 2 mi", type: "distance", isSelected: false)
 
-var review1 = Review(user: "Jacob R.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 4, placeTag: 1)
-var review2 = Review(user: "Michelle V.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 3, placeTag: 1)
-var review3 = Review(user: "Sara S.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 4, placeTag: 1)
-var review4 = Review(user: "Thomas K.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 1, placeTag: 1)
-var review5 = Review(user: "Professor G.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 2, placeTag: 1)
+//var review1 = Review(user: "Jacob R.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 4, placeTag: 1)
+//var review2 = Review(user: "Michelle V.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 3, placeTag: 1)
+//var review3 = Review(user: "Sara S.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 4, placeTag: 1)
+//var review4 = Review(user: "Thomas K.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 1, placeTag: 1)
+//var review5 = Review(user: "Professor G.", review: "This was a great vending machine. A perfect place to grab a snack when I needed a study break.", rating: 2, placeTag: 1)
 
 //var places = [place1, place2, place3, place4, place5, place6]
 var filters = [filter1, filter2, filter3, filter4, filter5, filter6, filter7]
-var reviews = [review1, review2, review3, review4, review5]
+//var reviews = [review1, review2, review3, review4, review5]
 //var originalData = places
 //var filteredPlaces: [(place: Place, name: String)] = []
 var favorites: [Place] = []

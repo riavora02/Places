@@ -115,5 +115,61 @@ class NetworkManager {
             }
         }
     }
+    
+    // get the Reviews
+    static func getReviews(place: Int, completion: @escaping ([Review]) -> Void) {
+        let endpoint = "https://places-backend-wk.herokuapp.com/reviews"
+        let parameters: [String: Any] = [
+            "place": place,
+        ]
+        AF.request(endpoint, method: .get, parameters: parameters).validate().responseData { response in
+            switch response.result {
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                //jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                if let reviewData = try? jsonDecoder.decode([Review].self, from: data) {
+                    // Instructions: Use completion to handle response
+                    completion(reviewData)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func addFavorite(placeID: Int, completion: @escaping (Int) -> Void) {
+        let header: HTTPHeaders = [
+            "Authorization": "Bearer " + User.current!.session_token
+        ]
+        print(User.current!.session_token)
+        let endpoint = "https://places-backend-wk.herokuapp.com/users/favorites/\(placeID)"
+        AF.request(endpoint, method: .post, encoding: JSONEncoding.default, headers: header).validate().responseData { response in
+            switch response.result {
+            case .success(_):
+                completion(4)
+                print("added favorite")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func removeFavorite(placeID: Int, completion: @escaping (Int) -> Void) {
+        let header: HTTPHeaders = [
+            "Authorization": "Bearer " + User.current!.session_token
+        ]
+        print(User.current!.session_token)
+        let endpoint = "https://places-backend-wk.herokuapp.com/users/favorites/\(placeID)"
+        AF.request(endpoint, method: .delete, encoding: JSONEncoding.default, headers: header).validate().responseData { response in
+            switch response.result {
+            case .success(_):
+                completion(4)
+                print("deleted favorite")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    
 }
-
