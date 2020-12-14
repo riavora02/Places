@@ -176,7 +176,7 @@ class NetworkManager {
 //        let header: HTTPHeaders = [
 //            "Authorization": "Bearer " + User.current!.session_token
 //        ]
-        let endpoint = "\(host)/reviews?user=\(userID ?? -1)"
+        let endpoint = "\(host)reviews?user=\(userID ?? -1)"
         print(endpoint)
         AF.request(endpoint, method: .get).validate().responseData { response in
             switch response.result {
@@ -187,6 +187,30 @@ class NetworkManager {
                     print("this is review")
                     print(reviewData)
                     completion(reviewData)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func getUserFavorites(completion: @escaping ([Place]) -> Void) {
+        let userID = User.current?.user_id
+        print(userID!)
+        let header: HTTPHeaders = [
+            "Authorization": "Bearer " + User.current!.session_token
+        ]
+        let endpoint = "\(host)users/favorites"
+        print(endpoint)
+        AF.request(endpoint, method: .post, headers: header).validate().responseData { response in
+            switch response.result {
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                //jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                if let favoriteData = try? jsonDecoder.decode([Place].self, from: data) {
+                    print("this is favorite")
+                    print(favoriteData)
+                    completion(favoriteData)
                 }
             case .failure(let error):
                 print(error.localizedDescription)

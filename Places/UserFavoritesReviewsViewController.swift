@@ -17,11 +17,11 @@ class UserFavoritesReviewsViewController: UIViewController {
     var reviewsCollectionView: UICollectionView!
     var userReviews: [Review] = []
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         getUserReviews()
+        getUserFavorites()
         setUpViews()
         setUpConstraints()
         
@@ -40,6 +40,7 @@ class UserFavoritesReviewsViewController: UIViewController {
         reviewsCollectionView.delegate = self
         reviewsCollectionView.register(ReviewCollectionViewCell.self, forCellWithReuseIdentifier: reviewReuseIdentifier)
         view.addSubview(reviewsCollectionView)
+    
     }
     
     func setUpConstraints() {
@@ -57,6 +58,13 @@ class UserFavoritesReviewsViewController: UIViewController {
             self.userReviews = reviews
             print(reviews)
             self.reviewsCollectionView.reloadData()
+        }
+    }
+    
+    func getUserFavorites(){
+        NetworkManager.getUserFavorites{ favorites in
+            print("got to the users favorites")
+            print(favorites)
         }
     }
 
