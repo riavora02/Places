@@ -172,19 +172,20 @@ class NetworkManager {
     
     static func getUserReviews(completion: @escaping ([Review]) -> Void) {
         let userID = User.current?.user_id
-        print(userID)
-        let header: HTTPHeaders = [
-            "Authorization": "Bearer " + User.current!.session_token
-        ]
-        let endpoint = "https://places-backend-wk.herokuapp.com/reviews?user=\(userID)"
+        print(userID!)
+//        let header: HTTPHeaders = [
+//            "Authorization": "Bearer " + User.current!.session_token
+//        ]
+        let endpoint = "https://places-backend-wk.herokuapp.com/reviews?user=13"
 
-        AF.request(endpoint, method: .get, headers: header).validate().responseData { response in
+        AF.request(endpoint, method: .get).validate().responseData { response in
             switch response.result {
             case .success(let data):
                 let jsonDecoder = JSONDecoder()
                 //jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 if let reviewData = try? jsonDecoder.decode([Review].self, from: data) {
-                    // Instructions: Use completion to handle response
+                    print("this is review")
+                    print(reviewData)
                     completion(reviewData)
                 }
             case .failure(let error):

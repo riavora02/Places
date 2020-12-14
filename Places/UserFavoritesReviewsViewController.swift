@@ -55,6 +55,7 @@ class UserFavoritesReviewsViewController: UIViewController {
         NetworkManager.getUserReviews{ reviews in
             print("got to the users")
             self.userReviews = reviews
+            print(reviews)
             self.reviewsCollectionView.reloadData()
         }
     }
