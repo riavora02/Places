@@ -41,7 +41,7 @@ class SignUpViewController: UIViewController {
         view.addSubview(smallRect)
 
         userName = UITextField()
-        userName.attributedPlaceholder = NSAttributedString(string: "Enter Username: ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        userName.attributedPlaceholder = NSAttributedString(string: "Enter Cornell Email: ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         userName.textColor = darkBlue
         userName.backgroundColor = lightBlue
         userName.layer.cornerRadius = 10
@@ -55,10 +55,9 @@ class SignUpViewController: UIViewController {
         password.textColor = darkBlue
         password.backgroundColor = lightBlue
         password.layer.cornerRadius = 10
-        password.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: self.userName.frame.height))
+        password.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: self.password.frame.height))
         password.leftViewMode = UITextField.ViewMode.always
-        password.translatesAutoresizingMaskIntoConstraints = false
-        password.isSecureTextEntry = true
+        password.isSecureTextEntry = false
         smallRect.addSubview(password)
         
         password2 = UITextField()
@@ -66,10 +65,9 @@ class SignUpViewController: UIViewController {
         password2.textColor = darkBlue
         password2.backgroundColor = lightBlue
         password2.layer.cornerRadius = 10
-        password2.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: self.userName.frame.height))
+        password2.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: self.password2.frame.height))
         password2.leftViewMode = UITextField.ViewMode.always
-        password2.translatesAutoresizingMaskIntoConstraints = false
-        password2.isSecureTextEntry = true
+        password2.isSecureTextEntry = false
         smallRect.addSubview(password2)
         
         signUp = UIButton()
@@ -123,13 +121,6 @@ class SignUpViewController: UIViewController {
         }
     }
     
-    @objc func textFieldDidChange() {
-        password.isSecureTextEntry = true
-    }
-    
-    @objc func textField2DidChange() {
-        password2.isSecureTextEntry = true
-    }
     
     @objc func pushSignUp() {
         if (userName.text! != "") && (password.text! != "") && (password2.text! != "") {
