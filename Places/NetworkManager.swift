@@ -76,8 +76,8 @@ class NetworkManager {
     }
     
     // get Rating by id
-    static func getRating(completion: @escaping (Int) -> Void) {
-        let endpoint = "https://places-backend-wk.herokuapp.com/places/rating/2"
+    static func getRating(id: Int, completion: @escaping (Int) -> Void) {
+        let endpoint = "https://places-backend-wk.herokuapp.com/places/rating/\(id)"
         AF.request(endpoint, method: .get).validate().responseData { response in
             switch response.result {
             case .success(let data):
@@ -95,14 +95,18 @@ class NetworkManager {
     }
     
     static func addReview(userID: Int, placeID: Int, rating: Int, text: String, completion: @escaping (User) -> Void) {
+        let header: HTTPHeaders = [
+            "Authorization": "Bearer " + User.current!.session_token
+        ]
         let parameters: [String: Any] = [
             "user_id": userID,
             "place_id": placeID,
             "rating": rating,
-            "text": text
+            "text": text,
         ]
+        print(User.current!.session_token)
         let endpoint = "https://places-backend-wk.herokuapp.com/reviews"
-        AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseData { response in
+        AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).validate().responseData { response in
             switch response.result {
             case .success(_):
                 print("posted review")

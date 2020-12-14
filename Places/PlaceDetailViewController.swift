@@ -248,8 +248,19 @@ class PlaceDetailViewController: UIViewController {
     }
     
     func getRating() {
-        NetworkManager.getRating{rating in
+        NetworkManager.getRating(id: currentPlace.id){rating in
             self.rating = rating
+            
+            self.star1.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+            if rating >= 5 {self.star1.tintColor = .systemYellow}
+            self.star2.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+            if rating >= 5 {self.star2.tintColor = .systemYellow}
+            self.star3.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+            if rating >= 5 {self.star3.tintColor = .systemYellow}
+            self.star4.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+            if rating >= 5 {self.star4.tintColor = .systemYellow}
+            self.star5.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+            if rating >= 5 {self.star5.tintColor = .systemYellow}
         }
     }
     
