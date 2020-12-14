@@ -19,48 +19,71 @@ class UserViewController: UIViewController {
     var logo: UIImageView!
     var passwordClicked = false
     var badEntry: UILabel!
-    
+    var userNameLabel: UILabel!
+    var passwordLabel: UILabel!
+    var bottomBorder = UIView()
+    var bottomBorder2 = UIView()
     var user: User!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        let background = UIImage(named: "cornellBackground")
+        var imageView: UIImageView!
+        imageView = UIImageView(frame: view.bounds)
+        imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = background
+        imageView.center = view.center
+        view.addSubview(imageView)
+        self.view.sendSubviewToBack(imageView)
         
         userName = UITextField()
         userName.translatesAutoresizingMaskIntoConstraints = false
-        userName.text = "Username"
         userName.borderStyle = .roundedRect
-        userName.backgroundColor = .white
+        userName.backgroundColor = .clear
         userName.textAlignment = .left
         userName.clearsOnBeginEditing = true
+        userName.borderStyle = .none
         view.addSubview(userName)
+        
+        bottomBorder.translatesAutoresizingMaskIntoConstraints = false
+        bottomBorder = UIView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        bottomBorder.backgroundColor = UIColor(hue: 0.5333, saturation: 0.54, brightness: 0.95, alpha: 1.0)
+        bottomBorder.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bottomBorder)
         
         password = UITextField()
         password.translatesAutoresizingMaskIntoConstraints = false
-        password.text = "Password"
         password.borderStyle = .roundedRect
-        password.backgroundColor = .white
+        password.backgroundColor = .clear
         password.textAlignment = .left
         password.clearsOnBeginEditing = true
-        password.addTarget(self, action: #selector(textFieldDidChange), for: UIControl.Event.editingDidBegin)
+        password.isSecureTextEntry = true
+        password.borderStyle = .none
         view.addSubview(password)
+        
+        bottomBorder2.translatesAutoresizingMaskIntoConstraints = false
+        bottomBorder2 = UIView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        bottomBorder2.backgroundColor = UIColor(hue: 0.5333, saturation: 0.54, brightness: 0.95, alpha: 1.0)
+        bottomBorder2.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bottomBorder2)
         
         login = UIButton()
         login.translatesAutoresizingMaskIntoConstraints = false
         login.setTitle("Login", for: .normal)
-        login.backgroundColor = UIColor(red: 179/255, green: 27/255, blue: 27/255, alpha: 1.0)
+        login.backgroundColor = UIColor(hue: 0.5333, saturation: 0.54, brightness: 0.95, alpha: 1.0)
         login.setTitleColor(.white, for: .normal)
         login.addTarget(self, action: #selector(pushLogin), for: .touchUpInside)
-        login.layer.cornerRadius = 10
+        login.layer.cornerRadius = 25
         view.addSubview(login)
         
         signUp = UIButton()
         signUp.translatesAutoresizingMaskIntoConstraints = false
         signUp.setTitle("Don't have an account? Click here to sign up!", for: .normal)
-        signUp.backgroundColor = .white
-        signUp.setTitleColor(.blue, for: .normal)
+        signUp.backgroundColor = .clear
+        signUp.setTitleColor(UIColor(hue: 0.5333, saturation: 0.54, brightness: 0.95, alpha: 1.0), for: .normal)
         signUp.addTarget(self, action: #selector(pushSignUp), for: .touchUpInside)
         view.addSubview(signUp)
         
@@ -77,10 +100,28 @@ class UserViewController: UIViewController {
         badEntry.textColor = .red
         view.addSubview(badEntry)
         
+        userNameLabel = UILabel()
+        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        userNameLabel.text = "USERNAME"
+        userNameLabel.backgroundColor = .clear
+        userNameLabel.textColor = UIColor(hue: 0.5333, saturation: 0.54, brightness: 0.95, alpha: 1.0)
+        view.addSubview(userNameLabel)
+        
+        passwordLabel = UILabel()
+        passwordLabel.translatesAutoresizingMaskIntoConstraints = false
+        passwordLabel.text = "PASSWORD"
+        passwordLabel.backgroundColor = .clear
+        passwordLabel.textColor = UIColor(hue: 0.5333, saturation: 0.54, brightness: 0.95, alpha: 1.0)
+        view.addSubview(passwordLabel)
+        
         setupConstraints()
     }
     
     func setupConstraints() {
+        NSLayoutConstraint.activate([
+            passwordLabel.leadingAnchor.constraint(equalTo: password.leadingAnchor),
+            passwordLabel.bottomAnchor.constraint(equalTo: password.topAnchor)
+            ])
         NSLayoutConstraint.activate([
             password.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             password.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -89,23 +130,39 @@ class UserViewController: UIViewController {
             password.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -48)
             ])
         NSLayoutConstraint.activate([
+            bottomBorder2.bottomAnchor.constraint(equalTo: password.bottomAnchor),
+            bottomBorder2.leadingAnchor.constraint(equalTo: password.leadingAnchor),
+            bottomBorder2.trailingAnchor.constraint(equalTo: password.trailingAnchor),
+            bottomBorder2.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        NSLayoutConstraint.activate([
             userName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            userName.bottomAnchor.constraint(equalTo: password.topAnchor, constant: -24),
+            userName.bottomAnchor.constraint(equalTo: password.topAnchor, constant: -36),
             userName.heightAnchor.constraint(equalToConstant: 36),
             userName.leadingAnchor.constraint(equalTo: password.leadingAnchor),
             userName.trailingAnchor.constraint(equalTo: password.trailingAnchor)
         ])
         NSLayoutConstraint.activate([
-            login.topAnchor.constraint(equalTo: password.bottomAnchor, constant: 24),
+            bottomBorder.bottomAnchor.constraint(equalTo: userName.bottomAnchor),
+            bottomBorder.leadingAnchor.constraint(equalTo: userName.leadingAnchor),
+            bottomBorder.trailingAnchor.constraint(equalTo: userName.trailingAnchor),
+            bottomBorder.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        NSLayoutConstraint.activate([
+            userNameLabel.leadingAnchor.constraint(equalTo: userName.leadingAnchor),
+            userNameLabel.bottomAnchor.constraint(equalTo: userName.topAnchor)
+            ])
+        NSLayoutConstraint.activate([
+            login.topAnchor.constraint(equalTo: password.bottomAnchor, constant: 48),
             login.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             login.heightAnchor.constraint(equalToConstant: 48),
             login.leadingAnchor.constraint(equalTo: password.leadingAnchor, constant: 48),
             login.trailingAnchor.constraint(equalTo: password.trailingAnchor, constant: -48)
         ])
         NSLayoutConstraint.activate([
-            logo.heightAnchor.constraint(equalTo: password.widthAnchor, multiplier: 0.5),
+            logo.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logo.bottomAnchor.constraint(equalTo: userName.topAnchor, constant: -24)
+            logo.bottomAnchor.constraint(equalTo: userName.topAnchor, constant: -96)
         ])
         NSLayoutConstraint.activate([
             signUp.heightAnchor.constraint(equalTo: login.heightAnchor, multiplier: 0.5),
@@ -117,10 +174,6 @@ class UserViewController: UIViewController {
             badEntry.topAnchor.constraint(equalTo: login.bottomAnchor, constant: 12),
             badEntry.heightAnchor.constraint(equalTo: login.heightAnchor, multiplier: 0.5)
         ])
-    }
-    
-    @objc func textFieldDidChange() {
-        password.isSecureTextEntry = true
     }
 
     
