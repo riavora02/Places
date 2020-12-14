@@ -36,7 +36,7 @@ class UserViewController: UIViewController {
         view.addSubview(placeImage)
         
         userName = UITextField()
-        userName.attributedPlaceholder = NSAttributedString(string: "Enter Username: ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        userName.attributedPlaceholder = NSAttributedString(string: "Enter Cornell Email: ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         userName.textColor = darkBlue
         userName.backgroundColor = lightBlue
         userName.layer.cornerRadius = 10
