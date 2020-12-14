@@ -80,7 +80,7 @@ class SignUpViewController: UIViewController {
         bottomBorder2.translatesAutoresizingMaskIntoConstraints = false
         bottomBorder2 = UIView.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         bottomBorder2.backgroundColor = UIColor(hue: 0.5333, saturation: 0.54, brightness: 0.95, alpha: 1.0)
-        bottomBorder2.translatesAutoresizingMaskIntoConstraints = false
+        bottomBorder2.translatesAutoresizingMaskIntoConstraints = false 
         view.addSubview(bottomBorder2)
         
         password2 = UITextField()
