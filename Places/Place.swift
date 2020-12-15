@@ -21,4 +21,12 @@ struct Rating: Codable{
     var rating: Int
 }
 
+struct favoritePlace: Codable, Hashable {
+    
+    var name: String
+    var latitude: Double
+    var longitude: Double
+    var types: String
+    var img_url: String
+}
 

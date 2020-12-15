@@ -36,7 +36,7 @@ class PlaceCollectionViewCell: UICollectionViewCell {
         self.contentView.layer.masksToBounds = true
         
         self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        self.layer.shadowOffset = .zero
         self.layer.shadowRadius = 2.0
         self.layer.shadowOpacity = 0.3
         self.layer.masksToBounds = false
@@ -136,12 +136,20 @@ class PlaceCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(place: Place){
+    func configure(place: Place, markedFavorite: Bool){
         currentPlace = place
         let photoURL = URL(string: currentPlace.image_url)
         imageView.kf.setImage(with: photoURL)
         placeCategory.text = place.types
         placeLocationDescription.text = place.name
+        if markedFavorite == true {
+            starButton.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate).withTintColor(.systemYellow)
+            starButton.tintColor = UIColor.systemYellow
+        }
+        else {
+            starButton.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate).withTintColor(.lightGray)
+            starButton.tintColor = UIColor.lightGray
+        }
     }
     
     @objc func toggle(gesture: UITapGestureRecognizer){

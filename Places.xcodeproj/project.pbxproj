@@ -10,7 +10,6 @@
 		5812C118257C6AF1002F88CA /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5812C117257C6AF1002F88CA /* TabBarViewController.swift */; };
 		5812C11C257C6B9C002F88CA /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5812C11B257C6B9C002F88CA /* MapViewController.swift */; };
 		5812C120257C7E34002F88CA /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5812C11F257C7E34002F88CA /* UserViewController.swift */; };
-		5812C124257C81A2002F88CA /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5812C123257C81A2002F88CA /* FavoritesViewController.swift */; };
 		5812C12F257C88E1002F88CA /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5812C12E257C88E1002F88CA /* Filter.swift */; };
 		5812C135257C88FB002F88CA /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5812C134257C88FB002F88CA /* FilterCollectionViewCell.swift */; };
 		5813E0F6257C453B004F4FA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5813E0F5257C453B004F4FA9 /* AppDelegate.swift */; };
@@ -37,7 +36,6 @@
 		5812C117257C6AF1002F88CA /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		5812C11B257C6B9C002F88CA /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		5812C11F257C7E34002F88CA /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
-		5812C123257C81A2002F88CA /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		5812C12E257C88E1002F88CA /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		5812C134257C88FB002F88CA /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		5813E0F2257C453B004F4FA9 /* Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Places.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,7 +106,6 @@
 				5813E0FE257C453D004F4FA9 /* Assets.xcassets */,
 				589EE6E4257EBE69003B2B3B /* Data.swift */,
 				5812C12E257C88E1002F88CA /* Filter.swift */,
-				5812C123257C81A2002F88CA /* FavoritesViewController.swift */,
 				5812C134257C88FB002F88CA /* FilterCollectionViewCell.swift */,
 				5813E103257C453D004F4FA9 /* Info.plist */,
 				5813E100257C453D004F4FA9 /* LaunchScreen.storyboard */,
@@ -260,7 +257,6 @@
 				5812C120257C7E34002F88CA /* UserViewController.swift in Sources */,
 				585572BF2582F6E900D5226B /* AddReviewViewController.swift in Sources */,
 				5812C135257C88FB002F88CA /* FilterCollectionViewCell.swift in Sources */,
-				5812C124257C81A2002F88CA /* FavoritesViewController.swift in Sources */,
 				5813E0FA257C453B004F4FA9 /* ViewController.swift in Sources */,
 				589EE6E5257EBE69003B2B3B /* Data.swift in Sources */,
 				B4A31FA52585B9AA00DB83F9 /* NetworkManager.swift in Sources */,

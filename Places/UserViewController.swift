@@ -117,10 +117,16 @@ class UserViewController: UIViewController {
     
     @objc func pushLogin() {
         if (userName.text! != "") && (password.text! != "") {
-            print("trying to login")
-            NetworkManager.signIn(email: userName.text!, username: userName.text!, password: password.text!) { user in
-                User.current = user
-                self.navigationController?.pushViewController(TabBarViewController(), animated: false)
+            NetworkManager.signIn(email: userName.text!, username: userName.text!, password: password.text!) { valid, user in
+                if(valid){
+                    User.current = user
+                    self.navigationController?.pushViewController(TabBarViewController(), animated: false)
+                }
+                else {
+                    let alert = UIAlertController(title: "Invalid Credentials", message: "Please enter Username and Password", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Try Again", style: .default, handler: nil))
+                    self.present(alert, animated: true )
+                }
             }
         }
     }

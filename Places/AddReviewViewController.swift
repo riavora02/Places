@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol saveReviewDelegate: class {
+    func saveReview()
+}
+
 class AddReviewViewController: UIViewController {
 
+    weak var delegate: saveReviewDelegate?
     var smallRect: UIView!
     
     var padding = 5
@@ -73,7 +78,6 @@ class AddReviewViewController: UIViewController {
         reviewText.font = .systemFont(ofSize: 16)
         reviewText.textAlignment = .left
         reviewText.layer.cornerRadius = 10
-        reviewText.text = "Add your review here: "
         reviewText.isScrollEnabled = true
         smallRect.addSubview(reviewText)
         
@@ -222,7 +226,9 @@ class AddReviewViewController: UIViewController {
         if(star5.tintColor == .systemYellow) {tempRating += 1}
         
         NetworkManager.addReview(userID: User.current!.user_id, placeID: currentPlace.id, rating: tempRating, text: reviewText.text){
-            completion in print("hi")
+            [weak self]
+            valid in print("hi")
+            self?.delegate?.saveReview()
         }
         dismiss(animated: true, completion: nil)
     }

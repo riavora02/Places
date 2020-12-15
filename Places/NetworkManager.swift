@@ -16,7 +16,7 @@ class NetworkManager {
      */
     private static let host = "https://places-backend-wk.herokuapp.com/"
     // TODO: Complete function to get a single restaurant
-    static func signIn(email: String, username: String, password: String, completion: @escaping (User) -> Void) {
+    static func signIn(email: String, username: String, password: String, completion: @escaping (Bool,User?) -> Void) {
         let parameters: [String: Any] = [
             "email": email,
             "username": username,
@@ -31,11 +31,13 @@ class NetworkManager {
                 if let user = try? jsonDecoder.decode(User.self, from: data) {
                     // Instructions: Use completion to handle response
                     DispatchQueue.main.async {
-                        completion(user)
+                        completion(true,user)
                     }
                 }
             case .failure(let error):
+                completion(false, nil)
                 print(error.localizedDescription)
+                print("this is an error!")
             }
         }
     }
@@ -94,7 +96,7 @@ class NetworkManager {
         }
     }
     
-    static func addReview(userID: Int, placeID: Int, rating: Int, text: String, completion: @escaping (User) -> Void) {
+    static func addReview(userID: Int, placeID: Int, rating: Int, text: String, completion: @escaping (Bool) -> Void) {
         let header: HTTPHeaders = [
             "Authorization": "Bearer " + User.current!.session_token
         ]
@@ -109,6 +111,7 @@ class NetworkManager {
             switch response.result {
             case .success(_):
                 print("posted review")
+                completion(true)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -194,21 +197,20 @@ class NetworkManager {
         }
     }
     
-    static func getUserFavorites(completion: @escaping ([Place]) -> Void) {
+    static func getUserFavorites(completion: @escaping ([favoritePlace]) -> Void) {
         let userID = User.current?.user_id
         print(userID!)
         let header: HTTPHeaders = [
             "Authorization": "Bearer " + User.current!.session_token
         ]
-        let endpoint = "\(host)users/favorites"
+        let endpoint = "https://places-backend-wk.herokuapp.com/users/favorites"
         print(endpoint)
         AF.request(endpoint, method: .post, headers: header).validate().responseData { response in
             switch response.result {
             case .success(let data):
                 let jsonDecoder = JSONDecoder()
                 //jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-                if let favoriteData = try? jsonDecoder.decode([Place].self, from: data) {
-                    print("this is favorite")
+                if let favoriteData = try? jsonDecoder.decode([favoritePlace].self, from: data) {
                     print(favoriteData)
                     completion(favoriteData)
                 }

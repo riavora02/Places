@@ -20,6 +20,8 @@ class ViewController: UIViewController {
     var places: [Place] = []
     var filteredData: [Place] = []
     var filteredPlaces: [(Place,String)] = []
+    var userFavorites: [favoritePlace] = []
+    var userFavoritesConverted: [Place] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,7 @@ class ViewController: UIViewController {
         setUpViews() 
         setUpConstraints()
         getPlaces()
+        getUserFavorites()
         
         filters = [filter1, filter2, filter3, filter4]
         filteredData = places
@@ -38,6 +41,9 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        getPlaces()
+        getUserFavorites()
     }
 
     func setUpViews(){
@@ -139,6 +145,26 @@ class ViewController: UIViewController {
         return filteredPlacesText
     }
     
+    func getUserFavorites(){
+        NetworkManager.getUserFavorites{ favorites in
+            self.userFavorites = favorites
+            self.convert()
+            self.placeCollectionView.reloadData()
+        }
+    }
+    
+    func convert(){
+        userFavoritesConverted = []
+        var count = 0
+        for originalPlace in userFavorites {
+            let tempPlace = Place(id: count, name: originalPlace.name, types: originalPlace.types, lat: originalPlace.latitude, lon: originalPlace.longitude, image_url: originalPlace.img_url)
+            userFavoritesConverted.append(tempPlace)
+            count += 1
+        }
+        print("this is the user fav converted")
+        print(userFavoritesConverted)
+    }
+    
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -159,7 +185,14 @@ extension ViewController: UICollectionViewDataSource {
         }
         else {
             let cell = placeCollectionView.dequeueReusableCell(withReuseIdentifier: placeCellReuse, for: indexPath) as! PlaceCollectionViewCell
-            cell.configure(place: filteredData[indexPath.row])
+            var isFavorite = false
+            let tempPlace = filteredData[indexPath.row]
+            for place in userFavoritesConverted {
+                if place.name == tempPlace.name {
+                    isFavorite = true
+                }
+            }
+            cell.configure(place: filteredData[indexPath.row], markedFavorite: isFavorite)
             return cell
         }
     }

@@ -30,6 +30,7 @@ class PlaceDetailViewController: UIViewController {
     var locationDescription: UITextView!
     var reviewsCollectionView: UICollectionView!
     var reviewsTitle: UITextView!
+    var noReviewsLabel: UILabel!
     
     var addReviewButton: UIButton! 
     
@@ -74,6 +75,7 @@ class PlaceDetailViewController: UIViewController {
     }
     
     func setUpViews(){
+        
         image = UIImageView()
         let photoURL = URL(string: currentPlace.image_url)
         image.kf.setImage(with: photoURL)
@@ -227,7 +229,7 @@ class PlaceDetailViewController: UIViewController {
         locationDescription.snp.makeConstraints{ make in
             make.leading.equalToSuperview().offset(padding)
             make.trailing.equalToSuperview().offset(-padding)
-            make.height.equalTo(30)
+            make.height.equalTo(50)
             make.top.equalTo(categoryName.snp.bottom).offset(padding + 10)
         }
         
@@ -253,17 +255,7 @@ class PlaceDetailViewController: UIViewController {
         NetworkManager.getRating(id: currentPlace.id){rating in
             self.rating = rating
             print(rating)
-            
-            self.star1.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-            if rating >= 1 {self.star1.tintColor = .systemYellow}
-            self.star2.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-            if rating >= 2 {self.star2.tintColor = .systemYellow}
-            self.star3.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-            if rating >= 3 {self.star3.tintColor = .systemYellow}
-            self.star4.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-            if rating >= 4 {self.star4.tintColor = .systemYellow}
-            self.star5.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
-            if rating >= 5 {self.star5.tintColor = .systemYellow}
+            self.configureStars()
         }
     }
     
@@ -281,8 +273,24 @@ class PlaceDetailViewController: UIViewController {
             }
         }
     }
+    
+    func configureStars(){
+        
+        self.star1.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+        if rating >= 1 {self.star1.tintColor = .systemYellow}
+        self.star2.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+        if rating >= 2 {self.star2.tintColor = .systemYellow}
+        self.star3.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+        if rating >= 3 {self.star3.tintColor = .systemYellow}
+        self.star4.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+        if rating >= 4 {self.star4.tintColor = .systemYellow}
+        self.star5.image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
+        if rating >= 5 {self.star5.tintColor = .systemYellow}
+    }
+    
     @objc func addReviewPopUp(){
         let addReviewViewController = AddReviewViewController()
+        addReviewViewController.delegate = self
         //self.navigationController?.pushViewController(addReviewViewController, animated: true)
         addReviewViewController.currentPlace = self.currentPlace
         present(addReviewViewController, animated: true, completion: nil)
@@ -305,12 +313,18 @@ extension PlaceDetailViewController: UICollectionViewDataSource {
 
 extension PlaceDetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.frame.width / 4.0
+        let height = collectionView.frame.width / 4.5
         let width = collectionView.frame.width - (collectionPadding * 3.0)
         return CGSize(width: width, height: height)
         
     }
 }
 
-
+extension PlaceDetailViewController: saveReviewDelegate {
+    func saveReview() {
+        print("delegate called")
+        getReviews()
+        getRating()
+    }
+}
 
