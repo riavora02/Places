@@ -20,7 +20,7 @@ class AddReviewViewController: UIViewController {
     var review: Review!
     
     var user: UITextView!
-    var reviewText: UITextView!
+    var reviewText: UITextField!
     var saveButton: UIButton!
     var currentPlace: Place! 
     
@@ -72,13 +72,22 @@ class AddReviewViewController: UIViewController {
         user.isScrollEnabled = false
         smallRect.addSubview(user)
         
-        reviewText = UITextView()
-        reviewText.backgroundColor = UIColor(red: 0.91, green: 0.96, blue: 0.97, alpha: 1.00)
+//        reviewText = UITextView()
+//        reviewText.backgroundColor = UIColor(red: 0.91, green: 0.96, blue: 0.97, alpha: 1.00)
+//        reviewText.textColor = .lightGray
+//        reviewText.font = .systemFont(ofSize: 16)
+//        reviewText.textAlignment = .left
+//        reviewText.layer.cornerRadius = 10
+//        reviewText.isScrollEnabled = true
+//        smallRect.addSubview(reviewText)
+        
+        reviewText = UITextField()
+        reviewText.attributedPlaceholder = NSAttributedString(string: "Add Review: ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         reviewText.textColor = .lightGray
-        reviewText.font = .systemFont(ofSize: 16)
-        reviewText.textAlignment = .left
+        reviewText.backgroundColor = lightBlue
         reviewText.layer.cornerRadius = 10
-        reviewText.isScrollEnabled = true
+        reviewText.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: self.reviewText.frame.height))
+        reviewText.leftViewMode = UITextField.ViewMode.always
         smallRect.addSubview(reviewText)
         
         star1 = UIImageView()
@@ -225,7 +234,7 @@ class AddReviewViewController: UIViewController {
         if(star4.tintColor == .systemYellow) {tempRating += 1}
         if(star5.tintColor == .systemYellow) {tempRating += 1}
         
-        NetworkManager.addReview(userID: User.current!.user_id, placeID: currentPlace.id, rating: tempRating, text: reviewText.text){
+        NetworkManager.addReview(userID: User.current!.user_id, placeID: currentPlace.id, rating: tempRating, text: reviewText.text!){
             [weak self]
             valid in print("hi")
             self?.delegate?.saveReview()
