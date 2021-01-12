@@ -1,8 +1,8 @@
-# Places
+## Places
 
 Places is an app that helps students find important locations around the Cornell Campus that are not always found on other map applications such as bathrooms, Blue Light Zones and water fountains. Places includes authentication and the ability for users to rate places and leave reviews. 
 
-# Developers 
+### Developers 
 This app was created by a team of 5 cornell students. 
 - Ria Vora (iOS Developer) 
 - Neil Madhavani (iOS Developer)
@@ -10,12 +10,12 @@ This app was created by a team of 5 cornell students.
 - Woosang Kang (Backend Developer) 
 - Sara Choi (Product Designer) 
 
-# Demo Video 
-Places won first place the Cornell AppDev Hack Challenge in Fall 2020. 
+### Demo Video 
+Places won first place the Cornell AppDev Hack Challenge in Fall 2020 Best Overall Category
 
 Check out the demo video here: https://www.youtube.com/watch?v=1KSNCEEp8K4 
 
-# Features: 
+### Features
 - Sign up/ Sign in page that notifies users if an incorrect username/password is entered
 - MapKit implementation to show all the places in map view 
 - UICollectionView implementation to show all places in tile view 
