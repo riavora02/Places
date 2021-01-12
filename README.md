@@ -17,7 +17,7 @@ Places won first place the Cornell AppDev Hack Challenge in Fall 2020 Best Overa
 
 Check out the demo video here:
 
-<img src = "https://img.youtube.com/vi/1KSNCEEp8K4/0.jpg">
+[![](https://img.youtube.com/vi/1KSNCEEp8K4/0.jpg)](https://www.youtube.com/watch?v=1KSNCEEp8K4)
 
 
 ### Features
